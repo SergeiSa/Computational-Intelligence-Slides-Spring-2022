@@ -1,0 +1,120 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{cases}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{bookmark}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{minted}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{subfig}
+\usepackage[margin=1in]{geometry}
+\usepackage[export]{adjustbox}
+\begin{document}
+\begin{titlepage}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\textwidth]{InnoLogo.png}
+%\caption*{}
+\label{fig:entropy} 
+\end{figure}
+
+\vspace{1.5in}
+
+\centering
+\Huge{\textbf{Computational Intelligence\\ Bonus Task}}\\[2.0in]
+
+\LARGE{\textbf{Mostafa Hegazy}}\\[0.2in]
+
+\normalsize{\textbf{MS1-Robotics}}\\[0.2in]
+
+\large{\textbf{2021}}
+\end{titlepage}
+\newpage
+
+\setlength\parindent{0pt}
+%\maketitle
+\begin{Large}
+\section{Task}
+
+\begin{align*}
+    \min_x \max_y || x - x^* || \\
+\end{align*}
+Subject to
+\begin{align}
+   (y-a)^T D (x-b) + s^T y + q^T x \leq h \\
+   ||Hy+f|| \leq p
+\end{align}
+Let's introduce a change of variables:
+\begin{align}
+    v &= H y + f \\ 
+    y &= H^{-1}(v-f)
+\end{align}
+Substitute (4) in (2):
+\begin{align}
+    ||v|| \leq p 
+\end{align}
+Substitute (4) in (1):
+\begin{align}
+    ( H^{-1}(v-f)-a)^T D (x-b) + s^T  H^{-1}(v-f) + q^T x \leq h \\
+    (v-f)^T H^{-T} D (x-b) - a^T D (x-b) + s^T H^{-1}(v-f) + q^T x \leq h
+\end{align}
+Expanding the terms:
+\begin{align}
+    v^T H^{-T} D (x-b) -f^T H^{-T} D (x-b) - a^T D (x-b) \\+ s^T H^{-1}v - s^T H^{-1} f + q^T x \leq h
+\end{align}
+Using the vector operations:
+\begin{align}
+    s^T H^{-1}v = v^T H^{-T} s \\
+    s^T H^{-1} f = f^T H^{-T} s
+\end{align}
+substituting equations (10) and (11) back in (8):
+\begin{align}
+    v^T H^{-T} D (x-b) -f^T H^{-T} D (x-b) - a^T D (x-b) \\+ v^T H^{-T} s - f^T H^{-T} s + q^T x \leq h
+\end{align}
+Taking common factors:
+\begin{align}
+    v^T H^{-T} (D (x-b) +s) - f^T H^{-T} (D (x-b)+s) - a^T D (x-b) + q^T x \leq h
+\end{align}
+
+
+\pagebreak
+Now we can define the worst case scenario:
+
+It happens when $v$ is aligned with $ H^{-T} (D (x-b) +s)$ and has a length of $p$
+
+\begin{align}
+    v = \frac{H^{-T} (D (x-b) +s)}{||H^{-T} (D (x-b) +s)||} * p
+\end{align}
+
+substituting (15) in (14) leads to:
+
+\begin{align}
+    p \,||H^{-T} (D (x-b) +s)|| - f^T H^{-T} (D (x-b)+s) - a^T D (x-b)+ q^T x  \leq h
+\end{align}
+
+So our optimization problem becomes:
+\begin{align*}
+    \min_x || x - x^* || \\
+\end{align*}
+Subject to
+\begin{align*}
+        ||H^{-T} (D (x-b) +s)|| \leq (h + f^T H^{-T} (D (x-b)+s)+ a^T D (x-b)- q^T x) \frac{1}{p}
+\end{align*}
+\end{Large}
+\end{document}

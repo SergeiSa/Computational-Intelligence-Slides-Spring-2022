@@ -1,0 +1,68 @@
+
+\begin{figure}
+\centering
+\begin{minipage}{.25\textwidth}
+  \centering
+  
+\begin{tikzpicture}[thick,scale=3]
+    \coordinate (A1) at (0,0);
+    \coordinate (A2) at (0.6,0.2);
+    \coordinate (A3) at (1,0);
+    \coordinate (A4) at (0.4,-0.2);
+    \coordinate (B1) at (0.5,0.5);
+    \coordinate (B2) at (0.5,-0.5);
+    %
+    \begin{scope}[thick,dashed,,opacity=0.6]
+        \draw (A1) -- (A2) -- (A3);
+        \draw (B1) -- (A2) -- (B2);
+    \end{scope}
+    %
+    \draw[fill=myhotpink,   opacity=0.6] (A1) -- (A4) -- (B1);
+    \draw[fill=mydarkgray, opacity=0.6] (A1) -- (A4) -- (B2);
+    \draw[fill=mylightpink,     opacity=0.6] (A3) -- (A4) -- (B1);
+    \draw[fill=mydarkpink,      opacity=0.6] (A3) -- (A4) -- (B2);
+    \draw (B1) -- (A1) -- (B2) -- (A3) --cycle;
+\end{tikzpicture}
+
+%   \captionof{figure}{Convex domain}
+\end{minipage}%
+\begin{minipage}{.45\textwidth}
+  \centering
+
+\begin{tikzpicture}[x=0.55pt,y=0.55pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+%Shape: Cube [id:dp8775233577412218] 
+\draw [fill=myhotpink,   opacity=0.7] (71.5,108.6) -- (108.1,72) -- (195,72) -- (195,157.4) -- (158.4,194) -- (71.5,194) -- cycle ; \draw   (195,72) -- (158.4,108.6) -- (71.5,108.6) ; \draw   (158.4,108.6) -- (158.4,194) ;
+\end{tikzpicture}
+
+%   \captionof{figure}{Non-convex domain}
+\end{minipage}
+\begin{minipage}{.35\textwidth}
+  \centering
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+%Shape: Polygon [id:ds951364720833231] 
+\draw [fill=myhotpink,   opacity=0.7] (340,71) -- (390,101) -- (340,181) -- (310,161) -- (290,101) -- cycle ;
+\end{tikzpicture}
+
+%   \captionof{figure}{Non-convex domain}
+\end{minipage}
+\begin{minipage}{.25\textwidth}
+  \centering
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+%Straight Lines [id:da23716511791848993] 
+\draw [color=myhotpink  ,draw opacity=0.29 ]   (135,67) -- (268.5,204) ;
+%Straight Lines [id:da07398036110019657] 
+\draw [color=mydarkblue  ,draw opacity=1, line width=1.75pt ]   (155,87) -- (237,172.5) ;
+%Straight Lines [id:da4002272137050389] 
+\draw [color=mydarkblue  ,draw opacity=1, line width=1.75pt ]   (149,91.6) -- (160.6,80.8) ;
+%Straight Lines [id:da5388486506254657] 
+\draw [color=mydarkblue  ,draw opacity=1, line width=1.75pt ]   (231.4,176.8) -- (243,166) ;
+\end{tikzpicture}
+
+%   \captionof{figure}{Non-convex domain}
+\end{minipage}
+\end{figure}

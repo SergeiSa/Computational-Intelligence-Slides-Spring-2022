@@ -1,0 +1,687 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{ Minimax }
+\subtitle{Computational Intelligence, Lecture 13}
+\author{by Sergei Savin}
+\centering
+\date{Spring 2021}
+
+
+
+\begin{document}
+\maketitle
+
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+% \item Mixed Integer Linear Programming (MILP)
+% \item Mixed Integer Quadratic Programming (MIQP)
+% \item Remarks
+% \item Example: Footstep planning
+% \item Big-M method relaxation
+% \begin{itemize}
+%     \item Basic idea
+%     \item Systems of inequalities
+%     \item Illustration, part 1
+%     \item Illustration, part 2
+%     \item Multiple variables
+% \end{itemize}
+% \item  Example: Footstep planning
+% \begin{itemize}
+%     \item Formulation as MIQP
+%     \item Evenly spaced steps
+%     \item Code, part 1
+%     \item Code, part 2
+%     \item Code, part 3
+% \end{itemize}
+\item Homework
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{MiniMax problems}
+\framesubtitle{Example}
+\begin{flushleft}
+
+Consider the following problem: 
+
+\begin{example}
+Find smallest $x \in \R$, such that $x + y \geq 1$, where $|y| \leq 2$.
+\end{example}
+
+\bigskip
+
+In that example we need to find optimal value of $x$ subject to a constraint where another unknown variable is present; the constraint has to be satisfied for the \emph{worst-case scenario}, in this case it is $y = -2$. Solution is $x = 3$
+
+\bigskip
+
+This is closely related to \emph{minimax optimization}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}{MiniMax: Linear constraint}
+\framesubtitle{Part 1}
+\begin{flushleft}
+
+Consider the following problem:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& & ||\bo{x}||, \\
+& \text{subject to}
+& & \bo{c}^\top \bo{x} + \bo{d}^\top \bo{y} \leq h, \\
+& & & ||\bo{y}|| \leq p
+\end{aligned}
+\end{equation}
+
+It is clear that worst-case scenario corresponds to the largest value of $\bo{d}^\top \bo{y}$, meaning that $\bo{y}$ should align with $\bo{d}$ and have its maximum possible length $p$. From that we conclude that $\bo{y} =  p \frac{\bo{d}}{|| \bo{d} ||} $.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{MiniMax: Linear constraint}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+Therefor $\bo{c}^\top \bo{x} + \bo{d}^\top \bo{y} \leq h$ becomes:
+
+\begin{align}
+    \bo{c}^\top \bo{x} + p  \frac{\bo{d}^\top\bo{d}}{|| \bo{d} ||} \leq h \\
+    \bo{c}^\top \bo{x} + p || \bo{d} || \leq h 
+\end{align}
+
+\bigskip
+
+Thus our problem becomes:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}}
+& & ||\bo{x}||, \\
+& \text{subject to}
+& & \bo{c}^\top \bo{x} \leq h - p || \bo{d} ||
+\end{aligned}
+\end{equation}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{MiniMax: Quadratic constraint, type 1}
+\framesubtitle{Part 1}
+\begin{flushleft}
+
+Consider the following problem, where $\bo{x}^*$ is the desired value of $\bo{x}$:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& & ||\bo{x} - \bo{x}^*||, \\
+& \text{subject to}
+& & \bo{y}^\top \bo{D} \bo{x} \leq h, \\
+& & & ||\bo{y}|| \leq p
+\end{aligned}
+\end{equation}
+
+This time worst-case scenario corresponds to $\bo{y}$ aligned with $\bo{D} \bo{x}$ and having its maximum possible length $p$. From that we conclude that $\bo{y} = p \frac{\bo{D} \bo{x}}{|| \bo{D} \bo{x} ||} $. Let us substitute it to $\bo{y}^\top \bo{D} \bo{x}$:
+
+\begin{equation}
+    p \left( \frac{\bo{D} \bo{x}}{|| \bo{D} \bo{x} ||} \right)^\top \bo{D} \bo{x} =
+    p \frac{\bo{x}^\top \bo{D}^\top \bo{D} \bo{x}}{|| \bo{D} \bo{x} ||} = 
+    p \frac{|| \bo{D} \bo{x} ||^2}{|| \bo{D} \bo{x} ||} = 
+    p || \bo{D} \bo{x} ||
+\end{equation}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{MiniMax: Quadratic constraint, type 1}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+Thus our problem becomes:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}}
+& & ||\bo{x} - \bo{x}^*||, \\
+& \text{subject to}
+& & || \bo{D} \bo{x} || \leq \frac{h}{p}
+\end{aligned}
+\end{equation}
+
+which is an SOCP.
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{MiniMax: Quadratic constraint, type 2}
+\framesubtitle{Part 1}
+\begin{flushleft}
+
+A more general case of the previous problem is:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& & ||\bo{x} - \bo{x}^*||, \\
+& \text{subject to}
+& & (\bo{y} - \bo{a})^\top \bo{D} (\bo{x} - \bo{b}) \leq h, \\
+& & & ||\bo{y}|| \leq p
+\end{aligned}
+\end{equation}
+%
+
+We can rewrite $(\bo{y} - \bo{a})^\top \bo{D} (\bo{x} - \bo{b}) \leq h$ as:
+
+\begin{equation}
+    \bo{y}^\top \bo{D} (\bo{x} - \bo{b}) - \bo{a}^\top \bo{D} (\bo{x} - \bo{b}) \leq h
+\end{equation}
+
+With that we see that the worse case scenario is $\bo{y}$ is aligned with $\bo{D} (\bo{x} - \bo{b})$ and has length $p$:
+
+\begin{equation}
+    \bo{y} = p \frac{\bo{D} (\bo{x} - \bo{b})}{|| \bo{D} (\bo{x} - \bo{b}) ||}
+\end{equation}
+
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{MiniMax: Quadratic constraint, type 2}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+Then $\bo{y}^\top \bo{D} (\bo{x} - \bo{b}) - \bo{a}^\top \bo{D} (\bo{x} - \bo{b}) \leq h$ becomes:
+
+\begin{equation}
+    p \frac{ (\bo{x} - \bo{b})^\top \bo{D}^\top \bo{D} (\bo{x} - \bo{b}) }{|| \bo{D} (\bo{x} - \bo{b}) ||}  - \bo{a}^\top \bo{D} (\bo{x} - \bo{b}) \leq h
+\end{equation}
+%
+which is the same as:
+
+\begin{equation}
+    p || \bo{D} (\bo{x} - \bo{b}) || - \bo{a}^\top \bo{D} (\bo{x} - \bo{b}) \leq h
+\end{equation}
+\begin{equation}
+    || \bo{D} (\bo{x} - \bo{b}) ||  \leq \frac{1}{p}\bo{a}^\top \bo{D} (\bo{x} - \bo{b}) + \frac{h}{p}
+\end{equation}
+
+which is an SOCP constraint.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{MiniMax: Quadratic constraint, type 2}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+And thus we get:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}}
+& & ||\bo{x} - \bo{x}^*||, \\
+& \text{subject to}
+& & || \bo{D} (\bo{x} - \bo{b}) ||  \leq \frac{1}{p}\bo{a}^\top \bo{D} (\bo{x} - \bo{b}) + \frac{h}{p}
+\end{aligned}
+\end{equation}
+%
+which is SOCP. 
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{MiniMax: Quadratic constraint, type 3}
+\framesubtitle{Part 1}
+\begin{flushleft}
+
+A more general case of the previous problem is:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& & ||\bo{x} - \bo{x}^*||, \\
+& \text{subject to}
+& & (\bo{y} - \bo{a})^\top \bo{D} (\bo{x} - \bo{b}) \leq h, \\
+& & & ||\bo{H}\bo{y} + \bo{f}|| \leq p
+\end{aligned}
+\end{equation}
+%
+where $\bo{H}$ is has an inverse. We start by making substitution:
+%and allows decomposition $\bo{H} = \bo{W}^\top \bo{W}$
+
+\begin{equation}
+    \bo{v} = \bo{H}\bo{y} + \bo{f}
+\end{equation}
+%
+meaning $\bo{y} = \bo{H}^{-1}(\bo{v} -\bo{f})$:
+
+\begin{align}
+    (\bo{H}^{-1}(\bo{v} -\bo{f}) - \bo{a})^\top \bo{D} (\bo{x} - \bo{b}) \leq h \\
+    \bo{v}^\top \bo{H}^{-\top} \bo{D} (\bo{x} - \bo{b}) - (\bo{H}^{-1}\bo{f} + \bo{a})^\top \bo{D} (\bo{x} - \bo{b}) \leq h\\
+    \bo{v}^\top \bo{H}^{-\top} \bo{D} (\bo{x} - \bo{b}) - (\bo{H}\bo{a} + \bo{f})^\top \bo{H}^{-\top}\bo{D} (\bo{x} - \bo{b}) \leq h
+\end{align}
+
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{MiniMax: Quadratic constraint, type 3}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+We can introduce notation:
+%
+\begin{align}
+    & \bo{M} = \bo{H}^{-\top} \bo{D} \\
+    & \bo{g} = \bo{H}\bo{a} + \bo{f}
+\end{align}
+ %
+With that we can re-write our constraint:
+%
+\begin{align}
+    \bo{v}^\top \bo{M} (\bo{x} - \bo{b}) - \bo{g}^\top \bo{M} (\bo{x} - \bo{b}) \leq h \\
+    (\bo{v} - \bo{g})^\top \bo{M} (\bo{x} - \bo{b}) \leq h 
+\end{align}
+%
+And now we formulated type 3 problem as type 2:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{v}}{\text{max}}
+& & ||\bo{x} - \bo{x}^*||, \\
+& \text{subject to}
+& & (\bo{v} - \bo{g})^\top \bo{M} (\bo{x} - \bo{b}) \leq h, \\
+& & & ||\bo{v}|| \leq p
+\end{aligned}
+\end{equation}
+
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{MiniMax: Quadratic constraint, type 4}
+% \framesubtitle{Part 2}
+\begin{flushleft}
+
+Try solving this problem on your own:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& & ||\bo{x} - \bo{x}^*||, \\
+& \text{subject to}
+& & (\bo{y} - \bo{a})^\top \bo{D} (\bo{x} - \bo{b})  + 
+\bo{s}^\top \bo{y} + \bo{q}^\top \bo{x} \leq h, \\
+& & & ||\bo{H}\bo{y} + \bo{f}|| \leq p
+\end{aligned}
+\end{equation}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Control with parameter uncertainty}
+\framesubtitle{Part 1}
+\begin{flushleft}
+
+Consider the system:
+%
+\begin{equation}
+    \dot{\bo{x}} = \bo{A}_p\bo{x} + \bo{B}_p\bo{u}
+\end{equation}
+%
+where $\bo{A}_p$ and $\bo{B}_p$ are linear functions of parameters $\bo{p}$. We want to stabilize the origin.
+
+\bigskip
+
+Assume we use control law:
+%
+\begin{equation}
+    \bo{u} = -\bo{K}\bo{x} + \bo{u}^*
+\end{equation}
+
+With that we get:
+%
+\begin{equation}
+   \dot{\bo{x}} = (\bo{A}_p - \bo{B}_p\bo{K})\bo{x} + \bo{B}_p\bo{u}^*
+\end{equation}
+
+
+% \begin{equation}
+%     \bo{u}^* = -\bo{B}^+(\bo{A}\bo{x}^* + \bo{c})
+% \end{equation}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Control with parameter uncertainty}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+Let us write Lyapunov function for the system:
+%
+\begin{align}
+    & V = \bo{x}^\top \bo{S} \bo{x} \\
+    & \dot{V} = \dot{\bo{x}}^\top \bo{S} \bo{x} + \bo{x}^\top \bo{S} \dot{\bo{x}} 
+    = \\
+    & = \bo{x}^\top \bo{S}(\bo{A}_p - \bo{B}_p\bo{K})\bo{x}
+    + \bo{x}^\top (\bo{A}_p - \bo{B}_p\bo{K})^\top
+    \bo{S} \bo{x}
+    + \\
+    & + \bo{x}^\top \bo{S} \bo{B}_p \bo{u}^*
+    +
+    \bo{u}^{*\top} \bo{B}_p^\top \bo{S} \bo{x}
+\end{align}
+%
+Let us define:
+%
+\begin{align}
+    & a = 2\bo{x}^\top \bo{S}(\bo{A}_p - \bo{B}_p\bo{K})\bo{x} \\
+    & \bo{b} = 2\bo{x}^\top \bo{S} \bo{B}_p
+\end{align}
+%
+With that we can find Jacobians:
+%
+\begin{align}
+    & \bo{a}_x = \frac{\partial a}{\partial \bo{p}} &
+    & \bo{B}_x = \frac{\partial \bo{b}}{\partial \bo{p}}
+\end{align}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Control with parameter uncertainty}
+\framesubtitle{Part 3}
+\begin{flushleft}
+
+Thus we get minimax constraint on the Lyapunov function
+%
+\begin{align}
+\dot{V} = \bo{a}_x^\top \bo{p}_t + 
+\bo{u}^{*\top} \bo{B}_x \bo{p}_t
+\end{align}
+%
+where $\bo{p}_t$ are true values of parameters $\bo{p}$. Assuming:
+%
+\begin{align}
+& \bo{p}_t = \bo{p} + \bo{p}_0
+\end{align}
+%
+we get:
+
+\begin{align}
+& \dot{V} = \bo{a}_x^\top (\bo{p} + \bo{p}_0) + 
+\bo{u}^{*\top} \bo{B}_x (\bo{p} + \bo{p}_0)
+\end{align}
+%
+which is a minimax constraint. Let's solve it for the case $||\bo{p}|| \leq 1$.
+%and $||\bo{G}\bo{p}|| \leq 1$
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Control with parameter uncertainty}
+\framesubtitle{Part 4}
+\begin{flushleft}
+Taking derivative of $\dot{V}$ with respect to $\bo{p}$ we get 
+%
+\begin{align}
+& \frac{\partial \dot{V}}{\partial  \bo{p}}  = \bo{a}_x^\top  + 
+\bo{u}^{*\top} \bo{B}_x
+\end{align}
+%
+this is the direction where the function grow the most. But we know its length is 1, so we conclude that:
+
+\begin{align}
+& \bo{p}  = \frac{\bo{a}_x^\top  + 
+\bo{u}^{*\top} \bo{B}_x}{|| \bo{a}_x^\top  + 
+\bo{u}^{*\top} \bo{B}_x ||}
+\end{align}
+
+So:
+%
+\begin{align}
+& \dot{V} = 
+|| \bo{a}_x^\top  + 
+\bo{u}^{*\top} \bo{B}_x ||
++
+(\bo{a}_x^\top + 
+\bo{u}^{*\top} \bo{B}_x) \bo{p}_0
+\end{align}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Elliptical parameter uncertainty}
+\framesubtitle{Part 1}
+\begin{flushleft}
+
+Let's do the same, but for the case when $||\bo{G}\bo{p}|| \leq 1$:
+
+\begin{equation}
+    \begin{cases}
+\dot{V} = \bo{a}_x^\top (\bo{p} + \bo{p}_0) + 
+\bo{u}^{*\top} \bo{B}_x (\bo{p} + \bo{p}_0) \leq 0 \\
+||\bo{G}\bo{p}|| \leq 1
+    \end{cases}
+\end{equation}
+
+First step is to introduce new variable:
+
+\begin{align}
+& \rho = \bo{G}\bo{p}
+\end{align}
+%
+from which it follows that $\bo{p} = \bo{G}^{-1} \rho$ ($\bo{G}$ should be invertible for the parameters to be bounded). Hence we get:
+
+\begin{equation}
+    \begin{cases}
+\dot{V} = \bo{a}_x^\top (\bo{G}^{-1} \rho + \bo{p}_0) + 
+\bo{u}^{*\top} \bo{B}_x (\bo{G}^{-1} \rho + \bo{p}_0) \leq 0 \\
+||\rho|| \leq 1
+    \end{cases}
+\end{equation}
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Elliptical parameter uncertainty}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+We can find gradient:
+
+\begin{align}
+& \frac{\partial \dot{V}}{\partial  \bo{p}}  = 
+\bo{a}_x^\top \bo{G}^{-1}  + 
+\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1}
+\end{align}
+
+We know that length of $\rho$ is bounded, so:
+
+\begin{align}
+& \rho  = 
+\frac{\bo{a}_x^\top \bo{G}^{-1}  + 
+\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1}}{|| \bo{a}_x^\top \bo{G}^{-1}  + 
+\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1} ||}
+\end{align}
+
+And thus we get SOCP constraint:
+
+\begin{equation}
+\dot{V} = 
+|| \bo{a}_x^\top \bo{G}^{-1}  + 
+\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1} ||
++ 
+\bo{a}_x^\top \bo{p}_0 + 
+\bo{u}^{*\top} \bo{B}_x \bo{p}_0 \leq 0 
+\end{equation}
+
+
+\end{flushleft}
+\end{frame}
+
+
+% \begin{frame}{Control with parameter uncertainty}
+% \framesubtitle{Part 2}
+% \begin{flushleft}
+
+% Assume the model depends on parameters $\bo{p}$:
+% %
+% \begin{equation}
+%     \bo{c} = \bo{C}\bo{p}
+% \end{equation}
+ 
+% Then feed-forward component also depends on $\bo{p}$:
+ 
+% \begin{equation}
+%     \bo{B}\bo{u}^* = -(\bo{A}\bo{x}^* + \bo{C}\bo{p})
+% \end{equation}
+
+% Now, assume we don't know $\bo{p}$, but only have an estimate $\Bar{\bo{p}} = \bo{p} + \Tilde{\bo{p}}$, where $\Tilde{\bo{p}}$ is parameter estimation error:
+
+% \begin{align}
+%     \bo{B}\Bar{\bo{u}}^* = -(\bo{A}\bo{x}^* + \bo{C}\bo{p} + \bo{C}\Tilde{\bo{p}}) \\
+%     \bo{B}\Bar{\bo{u}}^* = \bo{B}\bo{u}^* - \bo{C}\Tilde{\bo{p}}
+% \end{align}
+
+% \end{flushleft}
+% \end{frame}
+
+
+
+
+% \begin{frame}{Control with parameter uncertainty}
+% \framesubtitle{Part 3}
+% \begin{flushleft}
+
+% Let us use control law $\bo{u} = -\bo{K} (\bo{x} - \bo{x}^*) + \Bar{\bo{u}}^*$. We get:
+
+% \begin{align}
+%     & \dot{\bo{x}} = \bo{A}\bo{x} - \bo{B}(\bo{K} (\bo{x} - \bo{x}^*) + \Bar{\bo{u}}^*) + \bo{c} \\
+%     & \dot{\bo{x}} = \bo{A}\bo{x} - \bo{B} \bo{K} (\bo{x} - \bo{x}^*) + \bo{B}\Bar{\bo{u}}^* + \bo{c}
+% \end{align}
+ 
+% Let us define control error: $\bo{e} = \bo{x} - \bo{x}^*$ and write error dynamics by subtracting $\bo{A}\bo{x}^* + \bo{B}\bo{u}^* + \bo{c}$ from the closed-loop equation:
+
+% \begin{align}
+%     & \dot{\bo{e}} = \bo{A}\bo{e} - \bo{B} \bo{K} (\bo{x} - \bo{x}^*) + \bo{B}(\Bar{\bo{u}}^* - \bo{u}^*) \\
+%     & \dot{\bo{e}} = \bo{A}\bo{e} - \bo{B} \bo{K} \bo{e} + \bo{B}\bo{u}^* - \bo{C}\Tilde{\bo{p}} - \bo{B}\bo{u}^* \\
+%     & \dot{\bo{e}} = (\bo{A} - \bo{B}\bo{K}) \bo{e} - \bo{C}\Tilde{\bo{p}}
+% \end{align}
+
+
+
+% \end{flushleft}
+% \end{frame}
+
+
+
+% \begin{frame}{Control with parameter uncertainty}
+% \framesubtitle{Part 4}
+% \begin{flushleft}
+
+% Next steps:
+
+% \begin{enumerate}
+%     \item Expand brackets.
+%     \item Write Lyapunov
+%     \item Write MiniMax
+% \end{enumerate}
+
+
+
+% \end{flushleft}
+% \end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+% \begin{frame}{Homework}
+% % \framesubtitle{Parameter estimation}
+% \begin{flushleft}
+
+
+% \end{flushleft}
+% \end{frame}
+
+
+
+
+
+\begin{frame}
+\centerline{Lecture slides are available via Moodle.}
+\bigskip
+\centerline{You can help improve these slides at:}
+\centerline{
+\textcolor{blue}{\href{https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}{github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}}
+}
+\bigskip
+
+\textcolor{black}{\qrcode[height=1.5in]{https://git.io/JYRBT}}
+\bigskip
+
+\centerline{Check Moodle for additional links, videos, textbook suggestions.}
+\end{frame}
+
+
+
+\end{document}

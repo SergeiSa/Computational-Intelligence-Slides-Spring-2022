@@ -1,0 +1,340 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Least Squares and Quadratic Programming}
+\subtitle{Computational Intelligence, Lecture 4}
+\author{by Sergei Savin}
+\centering
+\date{Spring 2021}
+
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+\item Problems with analytical solutions
+\item Problems with inequality constraints
+\item Quadratic programming
+\item Homework
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Problems with analytical solutions}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+Problem 1. $\text{minimize} \ ||\mathbf{x}||$. Solution $\mathbf{x} = \mathbf{0}$.
+
+\bigskip
+
+Problem 2. $\text{minimize} \ ||\mathbf{A}\mathbf{x}||$. Solution $\mathbf{x} = \mathbf{0}$.
+
+\bigskip
+
+Problem 3. $\text{minimize} \ ||\mathbf{A}\mathbf{x} + \mathbf{b}||$. 
+
+\bigskip
+
+We observe that minimum of $||\mathbf{A}\mathbf{x} + \mathbf{b}||$ coincides with the minimum of $(\mathbf{A}\mathbf{x} + \mathbf{b})^2 = (\mathbf{A}\mathbf{x} + \mathbf{b})^\top (\mathbf{A}\mathbf{x} + \mathbf{b}) = \mathbf{b}^\top\mathbf{b} + \mathbf{b}^\top\mathbf{A}\mathbf{x} + \mathbf{x}^\top\mathbf{A}^\top\mathbf{b} + \mathbf{x}^\top\mathbf{A}^\top\mathbf{A}\mathbf{x}$, whose minimum coincides with the minimum of $\mathbf{b}^\top\mathbf{A}\mathbf{x} + \mathbf{x}^\top\mathbf{A}^\top\mathbf{b} + \mathbf{x}^\top\mathbf{A}^\top\mathbf{A}\mathbf{x}$. Since $\mathbf{b}^\top\mathbf{A}\mathbf{x}$ is a scalar, it is equal to its own transpose $(\mathbf{b}^\top\mathbf{A}\mathbf{x})^\top = \mathbf{x}^\top\mathbf{A}^\top\mathbf{b}$.
+
+Taking derivative with respect to $\mathbf{x}$ we find gradient of the obtained \emph{cost function}, and set it to zero, since that is the condition for the extreme point:
+
+\begin{equation}
+    \frac{\partial}{\partial \mathbf{x}} (2\mathbf{b}^\top\mathbf{A}\mathbf{x} + \mathbf{x}^\top\mathbf{A}^\top\mathbf{A}\mathbf{x}) = 2\mathbf{b}^\top\mathbf{A} + 2\mathbf{x}^\top\mathbf{A}^\top\mathbf{A} = \mathbf{0}
+\end{equation}
+ 
+\end{flushleft}
+\end{frame}
+
+\begin{frame}{Problems with analytical solutions}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+Thus we get expression: $2\mathbf{x}^\top\mathbf{A}^\top\mathbf{A} = -2\mathbf{b}^\top\mathbf{A}$, which we transpose and find value of $\mathbf{x}$:
+
+\begin{equation} \label{pinv}
+\mathbf{x} = -(\mathbf{A}^\top\mathbf{A})^{-1}\mathbf{A}^\top\mathbf{b}
+\end{equation}
+
+The shorthand for this formula is $\mathbf{x} = -\mathbf{A}^+\mathbf{b}$, and it is called Moore-Penrose pseudoinverse.
+
+\bigskip
+
+Remember that a projector is often defined as $\mathbf{P} = \mathbf{A}\mathbf{A}^+$. Now we can provide an explicit formula for a projector:
+
+\begin{equation} \label{projector}
+\mathbf{P} = \mathbf{A}(\mathbf{A}^\top\mathbf{A})^{-1}\mathbf{A}^\top
+\end{equation}
+
+However, neither \eqref{pinv} not \eqref{projector} should be directly used in as algorithms, since usually there are better ways to compute those quantities (via SVD decomposition, for example).
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Problems with analytical solutions}
+\framesubtitle{Part 3}
+\begin{flushleft}
+
+Problem 4. 
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & || \mathbf{x} ||, \\
+& \text{subject to}
+& & \mathbf{A} \mathbf{x} + \mathbf{B} \mathbf{y} = \mathbf{c}.
+\end{aligned}
+\label{prob4}
+\end{equation}
+
+We already solved this problem before, during lecture 3, using projection. Solution is: $\mathbf{x} = ((\mathbf{I} - \mathbf{B}\mathbf{B}^+) \mathbf{A})^+(\mathbf{I} - \mathbf{B}\mathbf{B}^+) \mathbf{c}$. Note that the sign in front of the expression is different, since here $\mathbf{c}$ is positive on the right-hand side of the eq.\ref{prob4}, while in the lecture 3 this vector for positive on the left-hand side. 
+
+\bigskip
+
+Problem 5. 
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & || \mathbf{x} ||, \\
+& \text{subject to}
+& & \mathbf{A} \mathbf{x} = \mathbf{c}.
+\end{aligned}
+\end{equation}
+
+We can treat is as a special case of the previous problem, where $\mathbf{B} = \mathbf{0}$, hence $(\mathbf{I} - \mathbf{B}\mathbf{B}^+) = \mathbf{I}$, and the solution is: $\mathbf{x} = \mathbf{A}^+\mathbf{c}$.
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Problems with analytical solutions}
+\framesubtitle{Part 4}
+\begin{flushleft}
+
+Notice that solutions for the problem 5 and problem 3 are written identically, even though problem 3 asks us to minimize residual of the linear system, while problem 5 - find minimum norm solution. 
+
+\bigskip
+
+This illustrates an important fact that solution to the least squares problem, formulated either as "minimization of a residual" or as a "minimum norm solution" are given by the same formula, which we call Moore-Penrose pseudoinverse.
+
+\bigskip
+
+Another way to achieve the same result is to see that all solutions to $\mathbf{A} \mathbf{x} = \mathbf{c}$ are written as $\mathbf{x} = \mathbf{A}^+\mathbf{c} + \mathbf{N}\mathbf{z}$, where $\mathbf{N} = \text{null}(\mathbf{A})$, and $\mathbf{A}^+\mathbf{c} \in \text{row}(\mathbf{A})$ as we proved previously. Since null space solution $\mathbf{N}\mathbf{z}$ and row space paricular solution $\mathbf{A}^+\mathbf{c}$ are orthagonal, the minimum norm solution corresponds to $\mathbf{z} = \mathbf{0}$, hence $\mathbf{x} = \mathbf{A}^+\mathbf{c}$.
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Problems with analytical solutions}
+\framesubtitle{Part 4}
+\begin{flushleft}
+
+Problem 6. 
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & || \mathbf{D}\mathbf{x} ||, \\
+& \text{subject to}
+& & \mathbf{A} \mathbf{x} = \mathbf{b}.
+\end{aligned}
+\end{equation}
+
+One way to think about it is to first find all solution to the constraint equation $\mathbf{A} \mathbf{x} = \mathbf{b}$ and then find optimal one among them. As we know, all solutions are given as: $\mathbf{x} = \mathbf{A}^+\mathbf{b} + \mathbf{N}\mathbf{z}$, where $\mathbf{N} = \text{null}(\mathbf{A})$. Then our cost function becomes: $|| \mathbf{D}\mathbf{A}^+\mathbf{b} +  \mathbf{D}\mathbf{N}\mathbf{z} ||$, which is equivalent to the problem 3. Thus, we can write solution as: $\mathbf{z}^* = -(\mathbf{D}\mathbf{N})^+ \mathbf{D}\mathbf{A}^+\mathbf{b}$. In terms of $\mathbf{x}$ solution is:
+
+\begin{equation}
+    \mathbf{x}^* = \mathbf{A}^+\mathbf{b}-\mathbf{N}(\mathbf{D}\mathbf{N})^+ \mathbf{D}\mathbf{A}^+\mathbf{b}
+\end{equation}
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Problems with analytical solutions}
+\framesubtitle{Part 5}
+\begin{flushleft}
+
+Problem 7. 
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & || \mathbf{D}\mathbf{x} + \mathbf{f} ||, \\
+& \text{subject to}
+& & \mathbf{A} \mathbf{x} = \mathbf{b}.
+\end{aligned}
+\end{equation}
+
+After the same initial step, we arrive at the cost function $|| \mathbf{D}\mathbf{N}\mathbf{z} + \mathbf{D}\mathbf{A}^+\mathbf{b} + \mathbf{f}||$. It is only different in the constant term, and the solution is found as follows:
+
+
+\begin{equation}
+    \mathbf{z}^* = -(\mathbf{D}\mathbf{N})^+ (\mathbf{D}\mathbf{A}^+\mathbf{b} + \mathbf{f})
+\end{equation}
+\begin{equation}
+    \mathbf{x}^* = \mathbf{A}^+\mathbf{b}-\mathbf{N}(\mathbf{D}\mathbf{N})^+ (\mathbf{D}\mathbf{A}^+\mathbf{b} + \mathbf{f})
+\end{equation}
+
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Problems with analytical solutions}
+\framesubtitle{Part 6}
+\begin{flushleft}
+
+Problem 8. 
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{x}^\top \mathbf{H} \mathbf{x} + \mathbf{c}^\top\mathbf{x}, \\
+& \text{subject to}
+& & \mathbf{A} \mathbf{x} = \mathbf{b}.
+\end{aligned}
+\end{equation}
+
+where $\mathbf{H}$ is positive-definite.
+
+\bigskip
+
+Assume that we found a decomposition $\mathbf{H} = \mathbf{D}^\top\mathbf{D}$. We can also find such $\mathbf{f}$ that $2\mathbf{f}^\top\mathbf{D} = \mathbf{c}^\top$. Then our cost function becomes $\mathbf{x}^\top \mathbf{D}^\top\mathbf{D} \mathbf{x} + 2\mathbf{f}^\top\mathbf{D}\mathbf{x}$, which as we saw before has coinciding minimum with the cost function $||\mathbf{D}\mathbf{x} + \mathbf{f}||$.
+
+\bigskip
+
+Therefore the problem has the same solution as Problem 6, after the mentioned above change in constants.
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Problems with inequality constraints}
+% \framesubtitle{Part 1}
+\begin{flushleft}
+
+Problem 9. 
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & || \mathbf{D}\mathbf{x} + \mathbf{f} ||, \\
+& \text{subject to}
+& & \mathbf{x} \leq \mathbf{b}.
+\end{aligned}
+\end{equation}
+
+Problem 10. 
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & || \mathbf{x} ||, \\
+& \text{subject to}
+& & \mathbf{A}\mathbf{x} \leq \mathbf{b}.
+\end{aligned}
+\end{equation}
+
+Problem 11. 
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & || \mathbf{D}\mathbf{x} + \mathbf{f} ||, \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{A}\mathbf{x} \leq \mathbf{b}, \\
+    \mathbf{C}\mathbf{x} = \mathbf{d}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Quadratic programming}
+% \framesubtitle{Part 1}
+\begin{flushleft}
+
+Mentioned problems can be described together as quadratic programs. The name is due to the cost function being quadratic (or equivalent). They are allowed to have linear equality or inequality constraints. 
+
+\bigskip
+
+General form of a quadratic program is given below:
+
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{x}^\top \mathbf{H} \mathbf{x} + \mathbf{f}^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{A}\mathbf{x} \leq \mathbf{b}, \\
+    \mathbf{C}\mathbf{x} = \mathbf{d}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b}$ describe a \emph{convex region}.
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Homework}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+\begin{itemize}
+    \item Solve all examples of problems with and without inequalities using \texttt{quadprog} function in the language of your choice.
+\end{itemize}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}
+\centerline{Lecture slides are available via Moodle.}
+\bigskip
+\centerline{You can help improve these slides at:}
+\centerline{
+\textcolor{blue}{\href{https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}{github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}}
+}
+\bigskip
+
+% \includegraphics[width=1.6in]{qrcode.png}
+\textcolor{black}{\qrcode[height=1.5in]{https://git.io/JYRBT}}
+\bigskip
+
+
+\centerline{Check Moodle for additional links, videos, textbook suggestions.}
+\end{frame}
+
+\end{document}

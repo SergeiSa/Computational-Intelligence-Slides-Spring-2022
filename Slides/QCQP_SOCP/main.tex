@@ -1,0 +1,365 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Quadratically constrained quadratic programming, \\ Second-order cone programming}
+\subtitle{Computational Intelligence, Lecture 9}
+\author{by Sergei Savin}
+\centering
+\date{Spring 2021}
+
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+\item  Quadratic programming: recap
+\item  Quadratically constrained quadratic programming
+\begin{itemize}
+    \item General form
+    \item Domain
+\end{itemize}
+\item  Second-order cone programming
+\begin{itemize}
+    \item General form
+    \item Special cases
+    \item Friction cone
+    \item Friction cone, solution
+\end{itemize}
+\item Homework
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Quadratic programming}
+\framesubtitle{General form}
+\begin{flushleft}
+
+Remember the general form of a quadratic program:
+
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{x}^\top \mathbf{H} \mathbf{x} + \mathbf{f}^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{A}\mathbf{x} \leq \mathbf{b}, \\
+    \mathbf{F}\mathbf{x} = \mathbf{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b}$ describe a convex region.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Quadratically constrained quadratic programming}
+\framesubtitle{General form}
+\begin{flushleft}
+
+General form of a quadratically constrained quadratic program (QCQP) is given below:
+
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{x}^\top \mathbf{P}_0 \mathbf{x} + \mathbf{q}_0^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{x}^\top \mathbf{P}_i \mathbf{x} + \mathbf{q}_i^\top\mathbf{x} + r_i \leq 0, \\
+    \mathbf{F}\mathbf{x} = \mathbf{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+where $\mathbf{P}_i$ are positive-definite.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Quadratically constrained quadratic programming}
+\framesubtitle{Domain}
+\begin{flushleft}
+
+Domain of a QCQP without equality constraints and with no degenerate inequality constraints is an intersection of ellipses:
+
+\begin{figure} [h!]
+\begin{center}
+\input{fig_1.tex}
+\end{center} 
+% \caption{AR 601 bipedal robot, Innopolis University}
+\end{figure}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{QCQP to QP and LP}
+% \framesubtitle{General form}
+\begin{flushleft}
+
+Set $\mathbf{P}_i = \mathbf{0}$ and you get a QP.
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{x}^\top \mathbf{P}_0 \mathbf{x} + \mathbf{q}_0^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \begin{bmatrix} 
+    \mathbf{q}_1^\top \\ ... \\ \mathbf{q}_n^\top
+    \end{bmatrix} 
+    \mathbf{x} \leq
+    \begin{bmatrix} 
+    r_1 \\ ... \\ r_n
+    \end{bmatrix} \\
+    \mathbf{F}\mathbf{x} = \mathbf{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+Set $\mathbf{P}_0 = \mathbf{0}$ and you get an LP.
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Second-order cone programming}
+\framesubtitle{General form}
+\begin{flushleft}
+
+
+The general form of a Second-order cone program (SOCP) is:
+
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{f}^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    ||\mathbf{A}_i\mathbf{x} + \mathbf{b}_i||_2 \leq 
+     \mathbf{c}_i^\top \mathbf{x} + d_i, \\
+    \mathbf{F}\mathbf{x} = \bo{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+LP, QP and QCQP are subsets of SOCP.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Second-order cone programming}
+\framesubtitle{Special cases}
+\begin{flushleft}
+
+We can write problem where our domain is a ball as SOCP:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{f}^\top\mathbf{x}, \\
+& \text{subject to}
+& & ||\mathbf{x}||_2 \leq d_i
+\end{aligned}
+\end{equation}
+
+\bigskip
+
+Same for ellipsoidal constraints:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{f}^\top\mathbf{x}, \\
+& \text{subject to}
+& & ||\mathbf{A}_i\mathbf{x}||_2 \leq d_i
+\end{aligned}
+\end{equation}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{SOCP to QCQP}
+\framesubtitle{Part 1}
+\begin{flushleft}
+
+Set $\mathbf{c}_i = 0$ and $d_i = 0$ and recognize that $||\mathbf{A}_i\mathbf{x} + \mathbf{b}_i||_2 \leq 0$ is the same as $(\mathbf{A}_i\mathbf{x} + \mathbf{b}_i)^\top (\mathbf{A}_i\mathbf{x} + \mathbf{b}_i) \leq 0$
+
+\bigskip
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{minimize}}
+& & \bo{f}^\top\bo{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \bo{x}^\top \bo{A}_i^\top \bo{A}_i \bo{x} + 
+    2 \bo{b}_i^\top \bo{A}_i\bo{x} + 
+    \bo{b}_i^\top \bo{b}_i  \leq 0\\
+    \bo{F}\bo{x} = \bo{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{SOCP to QCQP}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+
+Now to make the cost quadratic:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{minimize}}
+& & t, \\
+& \text{subject to}
+& & \begin{cases}
+    \bo{x}^\top \bo{A}_0^\top \bo{A}_0 \bo{x} + 
+    2 \bo{b}_0^\top \bo{A}_0\bo{x} + 
+    \bo{b}_0^\top \bo{b}_0  \leq t\\
+    \bo{x}^\top \bo{A}_i^\top \bo{A}_i \bo{x} + 
+    2 \bo{b}_i^\top \bo{A}_i\bo{x} + 
+    \bo{b}_i^\top \bo{b}_i  \leq 0\\
+    \bo{F}\bo{x} = \bo{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+Which is the same as:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\bo{x}}{\text{minimize}}
+& & \mathbf{x}^\top \mathbf{H} \mathbf{x} + \mathbf{f}^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \bo{x}^\top \bo{A}_i^\top \bo{A}_i \bo{x} + 
+    2 \bo{b}_i^\top \bo{A}_i\bo{x} + 
+    \bo{b}_i^\top \bo{b}_i  \leq 0\\
+    \bo{F}\bo{x} = \bo{g}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+As long as $\bo{A}_0 = \sqrt{\bo{H}}$, and $\bo{b}_0 = 0.5 \bo{A}_0^{-1} \mathbf{f}$.
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Friction cone}
+\framesubtitle{Friction and normal reaction force relation}
+\begin{flushleft}
+
+\begin{figure}
+    \centering
+    \input{fig_twolink_2_small}
+    % \caption{}
+    \label{fig:contact}
+\end{figure}
+
+Let $\bo{f}$ be total reaction force, $\bo{f}_n$ be its normal component (perpendicular to the surface locally), also known as normal reaction; and let $\bo{f}_{fr}$ be its tangential component (a vector lying in the tangent plane to the surface, constructed at the contact point), or friction force. Let $\mathbf{e}_n$ be a unit vector, normal to the surface at the point of contact.
+
+\begin{equation}
+    \bo{f} =  \bo{f}_n + \bo{f}_{fr}
+\end{equation}
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Second-order cone programming}
+\framesubtitle{Friction cone}
+\begin{flushleft}
+
+Defining $\bo{E}_t = [\mathbf{e}_{t, 1}, \ \mathbf{e}_{t, 2}] = \mathcal{L}(\mathbf{e}_n)$ be an orthonormal basis in the tangential space to the surface, we can write:
+%
+\begin{align*}
+\label{friction_cone}
+    & \bo{f} = \mathbf{e}_n n + \bo{E}_t \bo{t} & \\
+    & \bo{f}_n = \mathbf{e}_n n & \\
+    & \bo{f}_{fr} = \bo{E}_t \bo{t} & \\
+    & \bo{t} = [t_1, \ t_2]
+\end{align*}
+%
+The friction cone conditions could be written in any of the following ways:
+%
+\begin{equation}
+\label{friction_cone}
+    \sqrt{t_1^2 + t_2^2} < \mu n
+\end{equation}
+%
+\begin{equation}
+    || \bo{E}_t^\top \mathbf{f} || \leq \mu \mathbf{e}_n^\top \mathbf{f}
+\end{equation}
+%
+where $\mu$ is a friction coefficient.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Homework}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+Implement a program that finds right-most point of an intersection of two ellipsoids; visualise the problem and the solution.
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}
+\centerline{Lecture slides are available via Moodle.}
+\bigskip
+\centerline{You can help improve these slides at:}
+\centerline{
+\textcolor{blue}{\href{https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}{github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}}
+}
+\bigskip
+
+\textcolor{black}{\qrcode[height=1.5in]{https://git.io/JYRBT}}
+\bigskip
+
+\centerline{Check Moodle for additional links, videos, textbook suggestions.}
+\end{frame}
+
+
+
+\end{document}

@@ -1,0 +1,222 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Introduction}
+\subtitle{Computational Intelligence, Lecture 1}
+\author{by Sergei Savin}
+\centering
+\date{Spring 2021}
+
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+\item Motivation
+\item Motivating example
+\begin{itemize}
+\item fmincon
+\item quadprog
+\item SVD-based solution
+\item CVX-based solution
+\end{itemize}
+\item Homework
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Motivation}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+\begin{block}{Statement}
+  A lot of modern methods, computations and work in general in Robotics are backed by numerical optimization tools.
+\end{block}
+
+\begin{block}{What we want?}
+  To go from a "I hope it works" to a solid understanding of the mathematics and use-cases of those tools.
+\end{block}
+
+\begin{block}{Why we want it?}
+  It should allow us to solve a much wider range of problems, and solve them much more effectively.
+\end{block}
+
+\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{Motivating example}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+We have the following problem: find such $\mathbf x$ that minimizes $\mathbf x^\top \mathbf M \mathbf x$, while $\mathbf C \mathbf x = \mathbf y$. In other words:
+
+\begin{equation} \label{eq:Example1:1}
+\begin{aligned}
+& \underset{\mathbf  x}{\text{minimize}}
+& & \mathbf x^\top \mathbf M \mathbf x, \\
+& \text{subject to}
+& & \mathbf C \mathbf x = \mathbf y.
+\end{aligned}
+\end{equation}
+
+More concrete:
+
+\begin{equation} \label{eq:Example1:2}
+\begin{aligned}
+& \underset{\mathbf  x}{\text{minimize}}
+& & \begin{bmatrix} x_1 & x_2 & x_3 \end{bmatrix}
+\begin{bmatrix}  
+   1 & 0 & 1 \\
+   0 & 5 & 0 \\
+   1 & 0 & 3 \\
+   \end{bmatrix}
+\begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix}, \\
+& \text{subject to}
+& & \begin{bmatrix} 1 & 7 & 2 \end{bmatrix}
+\begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix}
+= 1.
+\end{aligned}
+\end{equation}
+
+How do we solve it?
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Motivating example}
+\framesubtitle{fmincon}
+\begin{flushleft}
+
+One very popular way of doing it is by use of a general-purpose local optimization solver, such as \texttt{fmincon} provided by MATLAB. Here is one possible solution:
+
+\begin{lstlisting}[language=Matlab]
+M = [1 0 1; 0 5 0; 1 0 3]; 
+C = [1 7 2]; 
+y = 1;
+
+fnc = @(x) x'*M*x;
+con = @(x) deal([], C*x-y);
+x = fmincon(fnc, zeros(3, 1), [],[],[],[],[],[], con)
+\end{lstlisting}
+
+Average solution time is \textbf{4.8} ms (this depends on many factors, so treat it only as a relative information). 
+Solution is $\mathbf{x} = \begin{bmatrix} 0.0442 & 0.1239 & 0.0442 \end{bmatrix}$.
+
+\end{flushleft}
+\end{frame}
+
+
+\begin{frame}[fragile]{Motivating example}
+\framesubtitle{quadprog}
+\begin{flushleft}
+
+A more sophisticated, but still a very straightforward approach is to use a dedicated solver for this class of problems \texttt{quadprog} provided by MATLAB. Here is the solution:
+
+\begin{lstlisting}[language=Matlab]
+M = [1 0 1; 0 5 0; 1 0 3]; 
+C = [1 7 2]; 
+y = 1;
+
+x = quadprog(M,[],[],[],C,y)
+\end{lstlisting}
+
+Average solution time is \textbf{0.56} ms, an order of magnitude less than with \texttt{fmincon}.
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Motivating example}
+\framesubtitle{SVD-based solution}
+\begin{flushleft}
+
+We can use an algebraic solution, based on SVD decomposition (or its derivative methods - null space and pseudo-inverse), as follows:
+
+\begin{lstlisting}[language=Matlab]
+M = [1 0 1; 0 5 0; 1 0 3]; 
+C = [1 7 2]; 
+y = 1;
+
+tol = 10^(-5);
+[P, N] = pinv_null(C, tol);
+x = ( eye(3) - N*((N'*M*N) \ (N'*M)) ) * P*y
+\end{lstlisting}
+
+Where \texttt{pinv\_null} is a function combining \texttt{pinv} and \texttt{null}, obtained from a single SVD decomposition.
+
+Average solution time is \textbf{0.027} ms, $\sim 20$ times faster than \texttt{quadprog} and $\sim 200$ times faster than \texttt{fmincon}.
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Motivating example}
+\framesubtitle{CVX-based solution}
+\begin{flushleft}
+
+Finally, we can invoke one of the most powerful convex optimization tools with a user-friendly coding style - CVX:
+
+\begin{lstlisting}[language=Matlab]
+M = [1 0 1; 0 5 0; 1 0 3];
+C = [1 7 2];
+y = 1;
+
+cvx_begin
+variables x(3);
+minimize( x' * M * x );
+subject to
+    C*x == y;
+cvx_end
+\end{lstlisting}
+
+However, we will see that the overhead for the call to the solver for this task is excessive. Average solution time is \textbf{282} ms, which is $\sim 60$ times slower than \texttt{fmincon}.
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Homework}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+Solve problem \eqref{eq:Example1:2} by the method you know and understand.
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}
+\centerline{Lecture slides are available via Moodle.}
+\bigskip
+\centerline{You can help improve these slides at:}
+\centerline{
+\textcolor{blue}{\href{https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}{github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}}
+}
+\bigskip
+
+% \includegraphics[width=1.6in]{qrcode.png}
+\textcolor{black}{\qrcode[height=1.5in]{https://git.io/JYRBT}}
+\bigskip
+
+
+\centerline{Check Moodle for additional links, videos, textbook suggestions.}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,206 @@
+name: Build LaTeX document
+
+on: 
+  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+    branches:
+      - master
+
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+
+      - name: Compile LaTeX document Syllabus
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Syllabus/
+
+      - name: Compile LaTeX document Introduction
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/Introduction/
+
+      - name: Compile LaTeX document NullRowProjector
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/NullRowProjector/
+
+      - name: Compile LaTeX document ColumnLeftNullApplications
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/ColumnLeftNullApplications/
+
+      - name: Compile LaTeX document LeastSquares_QuadraticProgramming
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/LeastSquares_QuadraticProgramming/
+
+      - name: Compile LaTeX document ConvexDomains
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/ConvexDomains/
+
+      - name: Compile LaTeX document LMI_ConvexDomains
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/LMI_ConvexDomains/
+
+      - name: Compile LaTeX document Linear_Programming
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/Linear_Programming/
+
+      - name: Compile LaTeX document QCQP_SOCP
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/QCQP_SOCP/
+
+      - name: Compile LaTeX document SDP
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/SDP/
+
+      - name: Compile LaTeX document BarrierFunctions
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/BarrierFunctions/
+
+      - name: Compile LaTeX document MICP
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/MICP/
+
+      - name: Compile LaTeX document MiniMax
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Slides/MiniMax/
+
+
+
+
+      - name: Save Syllabus artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Syllabus.pdf
+          path: Syllabus/main.pdf
+
+      - name: Save Introduction artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Introduction.pdf
+          path: Slides/Introduction/main.pdf
+
+      - name: Save NullRowProjector artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: NullRowProjector.pdf
+          path: Slides/NullRowProjector/main.pdf
+
+      - name: Save ColumnLeftNullApplications artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ColumnLeftNullApplications.pdf
+          path: Slides/ColumnLeftNullApplications/main.pdf
+
+      - name: Save LeastSquares_QuadraticProgramming artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: LeastSquares_QuadraticProgramming.pdf
+          path: Slides/LeastSquares_QuadraticProgramming/main.pdf
+
+      - name: Save ConvexDomains artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ConvexDomains.pdf
+          path: Slides/ConvexDomains/main.pdf
+
+      - name: Save LMI_ConvexDomains artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: LMI_ConvexDomains.pdf
+          path: Slides/LMI_ConvexDomains/main.pdf
+
+      - name: Save Linear_Programming artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Linear_Programming.pdf
+          path: Slides/Linear_Programming/main.pdf
+
+      - name: Save QCQP_SOCP artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: QCQP_SOCP.pdf
+          path: Slides/QCQP_SOCP/main.pdf
+
+      - name: Save SDP artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: SDP.pdf
+          path: Slides/SDP/main.pdf
+
+      - name: Save BarrierFunctions artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: BarrierFunctions.pdf
+          path: Slides/BarrierFunctions/main.pdf
+
+      - name: Save MICP artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: MICP.pdf
+          path: Slides/MICP/main.pdf
+
+      - name: Save MiniMax artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: MiniMax.pdf
+          path: Slides/MiniMax/main.pdf
+
+
+
+
+      - name: Update compiled PDFs in git repository
+        if: github.event.pull_request.merged == true || github.event_name == 'push'
+        run: |
+          git config --global user.name 'CI PDF compiler'
+          git config --global user.email '<>'
+          git add Syllabus/main.pdf
+          git add Slides/Introduction/main.pdf
+          git add Slides/NullRowProjector/main.pdf
+          git add Slides/ColumnLeftNullApplications/main.pdf
+          git add Slides/LeastSquares_QuadraticProgramming/main.pdf
+          git add Slides/ConvexDomains/main.pdf
+          git add Slides/LMI_ConvexDomains/main.pdf
+          git add Slides/Linear_Programming/main.pdf
+          git add Slides/QCQP_SOCP/main.pdf
+          git add Slides/SDP/main.pdf
+          git add Slides/BarrierFunctions/main.pdf
+          git add Slides/MICP/main.pdf
+          git add Slides/MiniMax/main.pdf
+
+
+
+          git commit -m "Update compiled PDFs"
+          git push

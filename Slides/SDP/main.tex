@@ -1,0 +1,399 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Semidefinite Programming, }
+\subtitle{Computational Intelligence, Lecture 10}
+\author{by Sergei Savin}
+\centering
+\date{Spring 2021}
+
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+\item  Semidefinite Programming (SDP)
+\begin{itemize}
+    \item General form
+    \item Multiple LMI
+    \item SDP decision variable
+\end{itemize}
+\item  Example 1:  Continuous Lyapunov equation as an SDP/LMI
+\item  Example 2:  Discrete Lyapunov equation as an SDP/LMI
+\item  Example 3:  LMI Controller design for continuous LTI
+\item How to describe an ellipsoid
+\item Volume of an ellipsoid
+\item Inscribed ellipsoid algorithms
+\item Homework
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Semidefinite Programming (SDP)}
+\framesubtitle{General form}
+\begin{flushleft}
+
+General form of a semidefinite program is:
+
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{c}^\top\mathbf{x}, \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{G} + \sum \mathbf{F}_i x_i \preceq 0, \\
+    \mathbf{A}\mathbf{x} = \mathbf{b}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+where $\mathbf{F}_i \succeq 0$ and $\mathbf{G} \succeq 0$ (meaning they are positive semidefinite).
+
+\bigskip
+
+Constraint $\mathbf{G} + \sum \mathbf{F}_i x_i \preceq 0$ is called \emph{linear matrix inequality} or \emph{LMI}.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Semidefinite Programming (SDP)}
+\framesubtitle{Multiple LMI}
+\begin{flushleft}
+
+SDP can have several LMIs. Assume you have:
+
+\begin{equation}
+    \begin{cases}
+        \mathbf{G} + \sum \mathbf{F}_i x_i \preceq 0 \\
+        \mathbf{D} + \sum \mathbf{H}_i x_i \preceq 0
+    \end{cases}
+\end{equation}
+
+
+This is equivalent to:
+
+\begin{equation}
+    \begin{bmatrix} 
+            \mathbf{G} & \mathbf{0} \\
+            \mathbf{0} & \mathbf{D}
+    \end{bmatrix} +
+    \sum
+    \begin{bmatrix} 
+            \mathbf{F}_i & \mathbf{0} \\
+            \mathbf{0}   & \mathbf{H}_i
+    \end{bmatrix}
+    x_i \preceq 0
+\end{equation}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Semidefinite Programming (SDP)}
+\framesubtitle{SDP decision variable}
+\begin{flushleft}
+
+Sometimes it is easier to directly think of semidefinite matrices as of decision variables. This leads to programs with such formulation:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{X}}{\text{minimize}}
+& & f(\mathbf{X}), \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{X} \preceq 0, \\
+    \mathbf{g}(\mathbf{X}) = \mathbf{0}.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+where cost and constraints should adhere to SDP limitations.
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Ex. 1: Continuous Lyapunov eq. as SDP/LMI}
+\framesubtitle{Mathematical formulation}
+\begin{flushleft}
+
+In control theory, Lyapunov equation is a condition of whether or not a continuous LTI system $\dot{\mathbf{x}} = \mathbf{A}\mathbf{x}$ is stabilizable:
+
+\begin{equation}
+    \begin{cases}
+        \mathbf{A}^\top\mathbf{P} + \mathbf{P}\mathbf{A} + \mathbf{Q} = 0 \\
+        \mathbf{P} \succeq 0 \\
+        \mathbf{Q} \succeq 0 
+    \end{cases}
+\end{equation}
+%
+where decision variable is $\mathbf{P}$. This can be represented as an SDP:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{P}}{\text{minimize}}
+& & 0, \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{P} \succeq 0, \\
+    \mathbf{A}^\top\mathbf{P} + \mathbf{P}\mathbf{A} + \mathbf{Q} = 0.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Ex. 1: Continuous Lyapunov eq. as SDP/LMI}
+\framesubtitle{Code}
+\begin{flushleft}
+
+\input{code1}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Ex. 2: Discrete Lyapunov eq. as SDP/LMI}
+\framesubtitle{Mathematical formulation}
+\begin{flushleft}
+
+In control theory, Discrete Lyapunov equation is a condition of whether or not a discrete LTI system $\mathbf{x}_{i+1} = \mathbf{A}\mathbf{x}_i$ is stabilizable:
+
+\begin{equation}
+    \begin{cases}
+        \mathbf{A}^\top \mathbf{P}\mathbf{A} - \mathbf{P} + \mathbf{Q} = 0 \\
+        \mathbf{P} \succeq 0 \\
+        \mathbf{Q} \succeq 0 
+    \end{cases}
+\end{equation}
+%
+where decision variable is $\mathbf{P}$. This can be represented as an SDP:
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{P}}{\text{minimize}}
+& & 0, \\
+& \text{subject to}
+& & \begin{cases}
+    \mathbf{P} \succeq 0, \\
+    \mathbf{A}^\top \mathbf{P}\mathbf{A} - \mathbf{P} + \mathbf{Q} = 0.
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Ex. 2: Discrete Lyapunov eq. as SDP/LMI}
+\framesubtitle{Code}
+\begin{flushleft}
+
+\input{code2}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Ex. 3: FTS for continuous LTI}
+\framesubtitle{Mathematical formulation}
+\begin{flushleft}
+
+For an LTI system of the form $\dot{\mathbf{x}} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}$ there is an LMI condition to determine if it can be stabilized:
+
+\begin{equation}
+    \begin{cases}
+        \mathbf{A}\mathbf{P} + \mathbf{P}\mathbf{A}^\top + \mathbf{B}\mathbf{L} + \mathbf{L}\mathbf{B}^\top + \mathbf{Q} = 0 \\
+        \mathbf{P} \succeq 0 \\
+        \mathbf{Q} \succeq 0 
+    \end{cases}
+\end{equation}
+%
+where decision variables are $\mathbf{P}$ and $\mathbf{L}$. 
+
+\bigskip
+
+This gives as a direct way to calculate linear feedback controller $\mathbf{u} = \mathbf{K}\mathbf{x}$ (note the sign!) gains:
+
+\begin{equation}
+    \mathbf{K} = \mathbf{L}\mathbf{P}^{-1}
+\end{equation}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Ex. 3: FTS for continuous LTI, Code}
+% \framesubtitle{Code}
+\begin{flushleft}
+
+\input{code3}
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{How to describe an ellipsoid}
+\framesubtitle{Unit sphere transformation}
+\begin{flushleft}
+
+Let us first remember how we describe a unit sphere:
+
+\begin{equation}
+    \mathcal{S} = \{ \mathbf{x}: \ || \mathbf{x} || \leq 1 \}
+\end{equation}
+
+An ellipsoid can be seen as a linear transformation of a unit sphere: 
+
+\begin{equation}
+    \mathcal{E} = \{ \mathbf{A}\mathbf{x} + \mathbf{b}: \ || \mathbf{x} || \leq 1 \}
+\end{equation}
+ 
+\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{How to describe an ellipsoid}
+\framesubtitle{A dual description}
+\begin{flushleft}
+
+Let us introduce a change of variables $\mathbf{z} = \mathbf{A}\mathbf{x} + \mathbf{b}$. Assuming $\mathbf{A}$ is invertible, we get:
+
+\begin{equation}
+    \mathbf{x} = \mathbf{A}^{-1}(\mathbf{z} - \mathbf{b})
+\end{equation}
+
+So, we can describe the exact same ellipsoid using an alternative formula: 
+
+\begin{equation}
+    \mathcal{E} = \{ \mathbf{z}: \ || \mathbf{B}\mathbf{z} + \mathbf{c} || \leq 1 \}
+\end{equation}
+ 
+ where $\mathbf{B} = \mathbf{A}^{-1}$ and $\mathbf{c} = -\mathbf{A}^{-1}\mathbf{b}$.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Volume of an ellipsoid}
+\framesubtitle{Part 1}
+\begin{flushleft}
+
+For an ellipsoid of the form
+
+\begin{equation}
+    \mathcal{E} = \{ \mathbf{A}\mathbf{x} + \mathbf{b}: \ || \mathbf{x} || \leq 1 \}
+\end{equation}
+
+the "bigger" the $\mathbf{A}$, the bigger the ellipsoid. This concept can be made concrete by talking about the determinant of $\mathbf{A}$.
+
+\bigskip
+
+Thus, maximizing the volume of this ellipsoid is the same as maximizing $\text{det}(\mathbf{A})$. Or, it is the same as \emph{minimizing} the $\text{det}(\mathbf{A}^{-1})$, since $\text{det}(\mathbf{A}^{-1}) = 1 / \text{det}(\mathbf{A})$.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Volume of an ellipsoid}
+\framesubtitle{Part 2}
+\begin{flushleft}
+
+For an ellipsoid of the form
+
+\begin{equation}
+    \mathcal{E} = \{ \mathbf{z}: \ || \mathbf{B}\mathbf{z} + \mathbf{c} || \leq 1 \}
+\end{equation}
+
+the "bigger" the $\mathbf{B}$, the \emph{smaller} the ellipsoid. We can make it obvious by thinking that increasing $\mathbf{B}$ leaves less room for valid $\mathbf{z}$, and it is the volume of valid $\mathbf{z}$ that makes the volume of the ellipsoid in this case.
+
+\bigskip
+
+This concept can be made concrete by talking about the determinant of $\mathbf{B}$. Thus, maximizing the volume of this ellipsoid is the same as \emph{minimizing} $\text{det}(\mathbf{B})$. Or, it is the same as \emph{maximizing} the $\text{det}(\mathbf{B}^{-1})$.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Inscribed ellipsoid algorithms}
+\begin{flushleft}
+
+Continue with slides from Convex Optimization — Boyd \& Vandenberghe. Follow the link:
+
+\bigskip
+
+\centerline{\href{https://see.stanford.edu/materials/lsocoee364a/08GeometricalProbs.pdf}{8. Geometric problems}}
+
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Homework}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+
+Implement both examples from page 2 of the \href{http://stanford.edu/class/ee363/notes/lmi-cvx.pdf}{LMI CVX documents}.
+
+\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\centerline{Lecture slides are available via Moodle.}
+\bigskip
+\centerline{You can help improve these slides at:}
+\centerline{
+\textcolor{blue}{\href{https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}{github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}}
+}
+\bigskip
+
+\textcolor{black}{\qrcode[height=1.5in]{https://git.io/JYRBT}}
+\bigskip
+
+\centerline{Check Moodle for additional links, videos, textbook suggestions.}
+\end{frame}
+
+
+
+\end{document}

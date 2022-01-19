@@ -1,0 +1,245 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Linear inequality representation of convex domains}
+\subtitle{Computational Intelligence, Lecture 7}
+\author{by Sergei Savin}
+\centering
+\date{Spring 2021}
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+\item Convex polytopes
+\item Half-spaces
+\begin{itemize}
+\item Definition
+\item Construction. Simple case
+\item Construction. General case
+\item Combination
+\item H-representation
+\item V-representation
+\end{itemize}
+\item Linear approximation of convex regions
+\item Homework
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Convex polytopes}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+Before defining what a convex polytope is, let us look at examples:
+
+\include{fig1}
+ 
+\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{Convex polytopes}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+You can think of polytopes as geometric figures (or continuous sets of points) with linear edges, faces and higher-dimensional analogues.
+
+\bigskip
+
+\begin{definition}
+ Convex polytopes are polytopes whose every two points can be connected with a line that would lie in the polytope. They can be bounded or unbounded.
+\end{definition}
+ 
+\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{Half-spaces}
+\framesubtitle{Definition}
+\begin{flushleft}
+
+We can define half-space as a set of all points $\mathbf{x}$, such that $\mathbf{a}^\top \mathbf{x} \leq b$. It has a very clear geometric interpretation. In the following image, the filled space is \textbf{not} in the half space.
+
+\include{fig2}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Half-spaces}
+\framesubtitle{Construction. Simple case}
+\begin{flushleft}
+
+Consider half-space that passes through the origin, and defined by its normal vector $\mathbf{n}$:
+
+\include{fig3}
+
+It is easy to see that this half-space can be defined as "all vectors $\mathbf{x}$, such that $\mathbf{n} \cdot \mathbf{x} \leq 0$", which is the same as using $\mathbf{n}$ instead of $\mathbf{a}$ in our original definition, setting $b = 0$.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Half-spaces}
+\framesubtitle{Construction. General case}
+\begin{flushleft}
+
+In the general case there is some distance between the boundary of the half-space and the origin, let's say $d$.
+
+\include{fig4}
+%
+Here the half space can be defined as "all vectors $\mathbf{x}$, such that $\mathbf{x}^\top \frac{\mathbf{n}}{|| \mathbf{n} ||}  \leq d$". This is the same as making $\mathbf{a} = \mathbf{n}$ and $b = d ||\mathbf{a}||$.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Half-spaces}
+\framesubtitle{Combination}
+\begin{flushleft}
+
+We can define a region of space as an \emph{intersection} of half-spaces $\mathbf{a}_i^\top \mathbf{x} \leq b_i$:
+
+\include{fig5}
+
+Resulting region will be easily described as $\begin{bmatrix} \mathbf{a}_1^\top \\ ... \\ \mathbf{a}_k^\top \end{bmatrix} \mathbf{x} \leq \begin{bmatrix} b_1 \\ ... \\ b_k \end{bmatrix}$
+
+ 
+\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{Half-spaces}
+\framesubtitle{H-representation}
+\begin{flushleft}
+
+The last result allows us to write any convex polytope as a matrix inequality:
+
+\begin{equation}
+\label{eq:ineq} 
+    \mathbf{A} \mathbf{x} \leq  \mathbf{b} 
+\end{equation}
+
+And conversely, any matrix inequality \eqref{eq:ineq} represents either an empty set or a convex polytope.
+
+\bigskip
+
+\begin{definition}
+ $\mathbf{A} \mathbf{x} \leq  \mathbf{b}$ is called \emph{H-representation} of a polytope.
+\end{definition}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{V-representation}
+% \framesubtitle{}
+\begin{flushleft}
+
+Convex polytopes have alternative representations, such as \emph{V-representation}. In amounts to representing polytope as a set of its vertices.
+
+\begin{example}
+$V = \begin{bmatrix} -1 & -1 & 1 & 1 \\ -1 & 1 & 1 & -1 \end{bmatrix}$ is a V-representation of a square.
+\end{example}
+
+\begin{example}
+$\begin{bmatrix} 1 & 0 \\ 0 & 1 \\ -1 & 0 \\ 0 & -1 \end{bmatrix}
+\begin{bmatrix} x_1 \\ x_2 \end{bmatrix} \leq
+\begin{bmatrix} 1 \\ 1 \\ 1 \\ 1 \end{bmatrix}$
+is an H-representation of the same square.
+\end{example}
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{H and V-representations}
+% \framesubtitle{}
+\begin{flushleft}
+
+Question: can we use V-representation for non-convex polytopes? What about H-representation?
+
+\bigskip
+
+Another note: to transfer from H-representation to V-representation, you need to solve \emph{vertex enumeration} problem, which is computationally expensive.
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Linear approximation of convex regions}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+Some convex regions can be easily approximated using polytopes.
+
+\include{fig6}
+
+Which allows to represent constraints on $\mathbf{x}$ to belong in such a region as a matrix inequality
+ 
+\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Homework}
+% \framesubtitle{Parameter estimation}
+\begin{flushleft}
+
+Represent in matrix inequality form the following figures:
+
+\begin{itemize}
+    \item Equilateral triangle
+    \item A square
+    \item Parallelepiped
+    \item Trapezoid
+\end{itemize}
+
+\end{flushleft}
+\end{frame}
+
+
+% \begin{frame}{Self-study}
+% % \framesubtitle{Part 3}
+% \begin{flushleft}
+
+% \begin{itemize}
+%     \item \href{https://www.youtube.com/watch?v=kcOodzDGV4c}{Convex Optimization, lecture 3, S. Boyd. Stanford. Convex functions}.
+% \end{itemize}
+
+% \end{flushleft}
+% \end{frame}
+
+
+
+\begin{frame}
+\centerline{Lecture slides are available via Moodle.}
+\bigskip
+\centerline{You can help improve these slides at:}
+\centerline{
+\textcolor{blue}{\href{https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}{github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2021}}
+}
+\bigskip
+
+\textcolor{black}{\qrcode[height=1.5in]{https://git.io/JYRBT}}
+\bigskip
+
+\centerline{Check Moodle for additional links, videos, textbook suggestions.}
+\end{frame}
+
+\end{document}

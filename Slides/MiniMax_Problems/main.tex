@@ -1,0 +1,158 @@
+ 
+%% document Notes
+
+\documentclass[12pt]{article}
+\usepackage{fullpage,graphicx,psfrag,amsmath,amsfonts,verbatim}
+\usepackage[small,bf]{caption}
+
+
+\bibliographystyle{alpha}
+
+\title{Computational Intelligence         Bonus Problem }
+
+
+\author{Mostafa Osama Ahmed Metwally Othman}
+
+\begin{document}
+\maketitle{Mini Max Problem}\\
+This problem is a Mini max Quadratic problem where we want to solve using CVX solver or any other so we need to reformulate the problem to be in the form of one of the known forms and we are looking for the worst case scenario in order to achieve our goal.
+
+
+
+
+
+\paragraph{Problem statement:}
+
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{X}}{\text{min   }}\underset{\mathbf{y}}{\text{max}}
+& & || \mathbf{X} - \mathbf{ X^\star} ||, \\
+& \text{subject to}
+& & \begin{cases}
+
+   (\mathbf{y}-\mathbf{a})^T \mathbf{D} (\mathbf{X}-\mathbf{b}) + \mathbf{s}^T \mathbf{y} + \mathbf{q}^T \mathbf{X} \leq h  \\
+   ||\mathbf{H}\mathbf{y}+\mathbf{f}|| \leq p
+    \end{cases}
+\end{aligned}
+\end{equation}
+
+\paragraph{Solution:}
+
+
+
+\begin{equation}
+\begin{aligned}
+\text{let us consider:}\\
+& \mathbf{v} = ||\mathbf{H}\mathbf{y}+\mathbf{f}||\\
+& \mathbf{y} = \mathbf{H}^{-1} (\mathbf{v} - \mathbf{f})\\
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+\text{substitute in main equation: }\\
+& (\mathbf{y}-\mathbf{a})^T \mathbf{D} (\mathbf{X}-\mathbf{b}) + \mathbf{s}^T \mathbf{y} + \mathbf{q}^T \mathbf{X} \leq h  \\
+\end{aligned}
+\end{equation}
+\begin{equation}
+\begin{aligned}
+& ( \mathbf{H}^{-1} (\mathbf{v} - \mathbf{f})-\mathbf{a})^T \mathbf{D} (\mathbf{X}-\mathbf{b})+ \mathbf{s}^T  \mathbf{H}^{-1} (\mathbf{v} - \mathbf{f}) + \mathbf{q}^T \mathbf{X} \leq h  \\
+\text{let us expand the equation:}\\
+\end{aligned}
+\end{equation}
+\begin{equation}
+\begin{aligned}
+& ( \mathbf{H}^{-1} \mathbf{v} - \mathbf{H}^{-1} \mathbf{f}-\mathbf{a})^T \mathbf{D} (\mathbf{X}-\mathbf{b})+ \mathbf{s}^T  \mathbf{H}^{-1} \mathbf{v} - \mathbf{s}^T\mathbf{H}^{-1} \mathbf{f} + \mathbf{q}^T \mathbf{X} \leq h  \\
+\end{aligned}
+\end{equation}
+\begin{equation}
+\begin{aligned}
+& \mathbf{v}^T \mathbf{H}^{-T} \mathbf{D} (\mathbf{X}-\mathbf{b}) - (\mathbf{H}^{-1} \mathbf{f}-\mathbf{a})^T \mathbf{D} (\mathbf{X}-\mathbf{b})+ \mathbf{s}^T  \mathbf{H}^{-1} \mathbf{v} - \mathbf{s}^T\mathbf{H}^{-1} \mathbf{f} + \mathbf{q}^T \mathbf{X} \leq h  \\
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+\text{Using vector operations:}\\
+& \mathbf{s}^T  \mathbf{H}^{-1} \mathbf{v} = \mathbf{v}^T\mathbf{H}^{-T}\mathbf{s} \\
+& \mathbf{s}^T\mathbf{H}^{-1} \mathbf{f} = \mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s} \\
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+& \mathbf{v}^T \mathbf{H}^{-T} \mathbf{D}\ (\mathbf{X}-\mathbf{b})-(\mathbf{H}^{-1}\mathbf{f}-\mathbf{a})^T\ \mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{v}^T\mathbf{H}^{-T}\mathbf{s}-\mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s}+\mathbf{q}^T\mathbf{X} \leq h  \\
+\end{aligned}
+\end{equation}
+
+
+
+\begin{equation}
+\begin{aligned}
+& \mathbf{v}^T \mathbf{H}^{-T} \mathbf{D}\ (\mathbf{X}-\mathbf{b})-(\mathbf{H}\mathbf{a}+\mathbf{f})^T\ \mathbf{H}^{-T}\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{v}^T\mathbf{H}^{-T}\mathbf{s}-\mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s}+\mathbf{q}^T\mathbf{X} \leq h  \\
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+& \mathbf{v}^T \mathbf{H}^{-T} (\mathbf{D}\ (\mathbf{X}-\mathbf{b})+\mathbf{s})-(\mathbf{H}\mathbf{a}+\mathbf{f})^T\ \mathbf{H}^{-T}\mathbf{D}(\mathbf{X}-\mathbf{b})-\mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s}+\mathbf{q}^T\mathbf{X} \leq h  \\
+\end{aligned}
+\end{equation}
+
+
+Now by looking at this equation, the worst case scenario corresponds to the largest value of $\mathbf{V}^T  \mathbf{H}^{-T} (\mathbf{D} (\mathbf{X}-\mathbf{b})+\mathbf{s})$ 
+where $\mathbf{V}^T$ should align with the other term in order to get the maximum possible value $\mathbf{p}$
+
+
+\begin{equation}
+\begin{aligned}
+& \mathbf{v} = \mathbf{p} \frac{\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})}{||\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})||} \\
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+&\mathbf{p} \frac{(\mathbf{H}^{-T} (\mathbf{D}\ (\mathbf{X}-\mathbf{b})+\mathbf{s}))^T\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s}) }
+{||\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})||}-(\mathbf{H}\mathbf{a}+\mathbf{f})^T\ \mathbf{H}^{-T}\mathbf{D}(\mathbf{X}-\mathbf{b})-\mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s}+\mathbf{q}^T\mathbf{X} \leq h  \\ 
+\end{aligned}
+\end{equation}
+
+
+
+\begin{equation}
+\begin{aligned}
+\mathbf{p} \frac{(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})^T \mathbf{H}^{-1}\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s}) } {||\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})||}-(\mathbf{H}\mathbf{a}+\mathbf{f})^T\ \mathbf{H}^{-T}\mathbf{D}(\mathbf{X}-\mathbf{b})-\mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s}+\mathbf{q}^T\mathbf{X} \leq h  \\ 
+\end{aligned}
+\end{equation}
+\begin{equation}
+\begin{aligned}
+& \mathbf{p} \frac{||\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})||^2}{||\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})||}-(\mathbf{H}\mathbf{a}+\mathbf{f})^T\ \mathbf{H}^{-T}\mathbf{D}(\mathbf{X}-\mathbf{b})-\mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s}+\mathbf{q}^T\mathbf{X} \leq h  \\
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+& \mathbf{p} ||\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})|| -(\mathbf{H}\mathbf{a}+\mathbf{f})^T\ \mathbf{H}^{-T}\mathbf{D}(\mathbf{X}-\mathbf{b})-\mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s}+\mathbf{q}^T\mathbf{X} \leq h  \\ \\
+\end{aligned}
+\end{equation}
+
+Then we can Re-Represent the problem into :
+
+%
+\begin{equation}
+\begin{aligned}
+& \underset{\mathbf{X}}{\text{min }}
+& & || \mathbf{X} - \mathbf{ X^\star} ||, \\
+& \text{subject to}
+& & \mathbf{p} ||\mathbf{H}^{-T}(\mathbf{D}(\mathbf{X}-\mathbf{b})+\mathbf{s})|| -(\mathbf{H}\mathbf{a}+\mathbf{f})^T\ \mathbf{H}^{-T}\mathbf{D}(\mathbf{X}-\mathbf{b})-\mathbf{f}^T\ \mathbf{H}^{-T}\mathbf{s}+\mathbf{q}^T\mathbf{X} \leq h  \\ 
+\end{aligned}
+\end{equation}
+
+Which is then considered as a SOCP Problem.
+
+
+\end{document}
