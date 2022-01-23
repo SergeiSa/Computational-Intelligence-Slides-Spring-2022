@@ -97,6 +97,12 @@ jobs:
           root_file: main.tex
           working_directory: Slides/MiniMax/
 
+      - name: Compile LaTeX document Assignment_1
+        uses: xu-cheng/latex-action@master
+        with:
+          root_file: main.tex
+          working_directory: Assignments/Assignment_1/
+
 
 
 
@@ -178,6 +184,12 @@ jobs:
           name: MiniMax.pdf
           path: Slides/MiniMax/main.pdf
 
+      - name: Save Assignment_1 artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Assignment_1.pdf
+          path: Assignments/Assignment_1/main.pdf
+
 
 
 
@@ -199,6 +211,7 @@ jobs:
           git add Slides/BarrierFunctions/main.pdf
           git add Slides/MICP/main.pdf
           git add Slides/MiniMax/main.pdf
+          git add Assignments/Assignment_1/main.pdf
 
 
 
