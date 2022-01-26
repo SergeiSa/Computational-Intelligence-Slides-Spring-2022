@@ -15,7 +15,7 @@
 
 # Lecture videos:
 * Class 1: https://youtu.be/YB-Pm6dPR7s
-* Class 2: https://youtu.be/B25aDL0knIQ
+* Class 2: https://youtu.be/B25aDL0knIQ (2021), https://youtu.be/u7CT63Vz8sM (2022)
 * Class 3: https://youtu.be/G3698D8lMk4
 * Class 4: https://youtu.be/sU9H3KIdl_Q
 * Class 5: https://youtu.be/m1VBodm9fyA
@@ -29,7 +29,7 @@
 * Class (Minimax): https://youtu.be/KFOa_HzwreY
 
 
-# Last year's videos:
+# 2020's videos:
 * Lecture 1: [part 1](https://youtu.be/56ZVzQcCdQk), [part 2](https://youtu.be/VwmmfpipHTc)
 * Lecture 2: [part 1](https://youtu.be/wc3UT7IZs98), [part 2](https://youtu.be/4iA4CFzyELg), [part 3](https://youtu.be/EdrsJ-l9VLs)
 * Lecture 3: [part 1](https://youtu.be/sTYvIrjrBbQ), [part 2](https://youtu.be/4JUgkA7lWo8), [part 3](https://youtu.be/XGThWt5H6jw)
