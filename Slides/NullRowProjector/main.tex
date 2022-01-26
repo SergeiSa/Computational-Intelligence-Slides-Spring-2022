@@ -3,7 +3,7 @@
 \input{settings.tex}
 
 
-\title{Null space, Row space, Projectors}
+\title{Least Squares, Null space, Row space, Projectors}
 \subtitle{Computational Intelligence, Lecture 2}
 \author{by Sergei Savin}
 \centering
@@ -39,24 +39,66 @@
 
 
 
-\begin{frame}{Motivating questions}
-% \framesubtitle{Parameter estimation}
-\begin{flushleft}
+\begin{frame}{Least squares at a glance}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+	Consider the following problem: find smallest-norm $\bo{x}$ that equality $\bo{A}\bo{x} = \bo{y}$ has least residual. This is the \emph{least squares problem}.
+	
+	\bigskip
+	
+	Solution to the least squares problem is given by a pseudoinverse:
+	
+	\begin{equation}
+		\bo{x} = \bo{A}^+\bo{y}
+	\end{equation}
 
-You have a linear operator $\mathbf A$. Try to answer the following questions:
-
-\begin{itemize}
-    \item What are all vectors this operator can produce as outputs? How to find them?
-    \item Are there two inputs that make it produce the same output?
-    \item Are there inputs that produce zero as an output?
-    \item Are there outputs that cannot be produced? 
-    \item What is the smallest vector $\bo{x}$ that produces given output $\bo{y}$? 
-\end{itemize}
-
-These questions are directly related to the idea of fundamental subspaces of a linear operator.
-
-\end{flushleft}
+Notice that, surprisingly, this solves both minimizations at the same time: find smallest $\bo{x}$ among all least-residual solutions.
+		
+	\end{flushleft}
 \end{frame}
+
+
+
+\begin{frame}{Least squares and closest element}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		You are given equation $\bo{A}\bo{x} = \bo{y}$. Assume that you want to find such $\bo{x}$ that $ \bo{y}$ achieves the value as close as possible to $\bo{y}^*$.
+		
+		\bigskip
+		
+		We know that $\bo{x} = \bo{A}^+\bo{y}^*$ gives us the least residual solution. Multiplying it by $\bo{A}$ we get:
+		
+		\begin{equation}
+			\bo{y} = \bo{A}\bo{A}^+\bo{y}^*
+		\end{equation}
+	
+	This is the value of $\bo{y}$ closest to $\bo{y}^*$, that we can achieve.
+	
+	\end{flushleft}
+\end{frame}
+
+
+
+%\begin{frame}{Motivating questions}
+%% \framesubtitle{Parameter estimation}
+%\begin{flushleft}
+%
+%You have a linear operator $\mathbf A$. Try to answer the following questions:
+%
+%\begin{itemize}
+%    \item What are all vectors this operator can produce as outputs? How to find them?
+%    \item Are there two inputs that make it produce the same output?
+%    \item Are there inputs that produce zero as an output?
+%    \item Are there outputs that cannot be produced? 
+%    \item What is the smallest vector $\bo{x}$ that produces given output $\bo{y}$? 
+%\end{itemize}
+%
+%These questions are directly related to the idea of fundamental subspaces of a linear operator.
+%
+%\end{flushleft}
+%\end{frame}
 
 
 \begin{frame}{Four Fundamental Subspaces}
@@ -172,9 +214,12 @@ Let $\bo{A} = \begin{bmatrix} 0 & 1 \\ 0 & 0\end{bmatrix}$. Its null space has o
 If for a vector $\bo{x}$, the closest vector to it from a linear subspace $\mathcal{L}$ is zero vector, $\bo{x}$ is called \emph{orthogonal} to the subspace $\mathcal{L}$. We denote it as $\bo{x} \in \mathcal{L}^\perp$.
 \end{definition}
 
+\begin{definition}
+	(equivalent) A vector $\bo{x}$, orthogonal to all elements of the subspace $\mathcal{L}$ is called \emph{orthogonal} to the subspace $\mathcal{L}$.
+\end{definition}
 
 \begin{definition}
-The space of all vectors $\bo{x}$, for which closest vector to them from a linear subspace $\mathcal{L}$ is zero vector, is called \emph{subspace, orthogonal to} $\mathcal{L}$ and is denoted as $\mathcal{L}^\perp$.
+The space of all vectors $\bo{x}$, orthogonal to a linear subspace $\mathcal{L}$ is called \emph{orthogonal compliment} of $\mathcal{L}$ and is denoted as $\mathcal{L}^\perp$.
 \end{definition}
 
 \end{flushleft}
@@ -244,7 +289,7 @@ Let $\mathcal{N}$ be null space of $\bo{A}$. Then orthogonal subspace $\mathcal{
 \end{definition}
 
 \begin{definition}
-\emph{Row space} of $\bo{A}$ is the space of all inputs to $\bo{A}$ that produce non-zero outputs (plus zero vector, which is included in all linear subspaces).
+\emph{Row space} of $\bo{A}$ is the space of all smallest-norm solutions of $\bo{A}\bo{x} = \bo{y}$, for $\forall \bo{y}$, plus the zero vector, which is included in all linear subspaces.
 \end{definition}
 
 \bigskip
@@ -261,11 +306,11 @@ We will denote row space as $\mathcal{R}$.
 % \framesubtitle{Definition}
 \begin{flushleft}
 
-Given vector $\bo{x}$, matrix $\bo{A}$ and its nulls space basis $\bo{N}$, and we check if $\bo{x}$ is in the null space of $\bo{A}$. 
+Given vector $\bo{x}$, matrix $\bo{A}$ and its nulls space basis $\bo{N}$, and we check if $\bo{x}$ is in the null space of $\bo{A}$. The simplest way is to check if $\bo{A}\bo{x} = 0$. But sometimes we may want to avoid computing $\bo{A}\bo{x}$, for example if the number of elements of $\bo{A}$ is much bigger than the number of elements of $\bo{N}$.
 
 \bigskip
 
-We do it by noticing that if it is in the null space of $\bo{A}$, it will have zero projection onto the row space of $\bo{A}$. So, the condition is as follows:
+We notice that if $\bo{x}$ is in the null space of $\bo{A}$, it will have zero projection onto the row space of $\bo{A}$. So, the condition is as follows:
 
 \begin{equation}
     (\bo{I} - \bo{N} \bo{N}^+) \bo{x} = 0
