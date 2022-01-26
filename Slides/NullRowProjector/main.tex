@@ -260,16 +260,16 @@ Since $\bo{L}$ is orthonormal, this is the same as $\bo{x} = \bo{L} \bo{L}^\top 
 \framesubtitle{Part 2}
 \begin{flushleft}
 
-Since $\bo{a} = \bo{x} + \bo{y}$, and $\bo{x} = \bo{L} \bo{L}^+ \bo{a}$, we can write:
+Since $\bo{a} = \bo{x} + \bo{y}$, and $\bo{x} = \bo{L} \bo{L}^\top \bo{a}$, we can write:
 
 \begin{equation}
-    \bo{a} = \bo{L} \bo{L}^+ \bo{a} + \bo{y}
+    \bo{a} = \bo{L} \bo{L}^\top \bo{a} + \bo{y}
 \end{equation}
 %
 from which it follows that the projection of $\bo{a}$ onto $\mathcal{L}^\perp$ can be found as: 
 
 \begin{equation}
-    \bo{y} = (\bo{I} - \bo{L} \bo{L}^+) \bo{a}
+    \bo{y} = (\bo{I} - \bo{L} \bo{L}^\top) \bo{a}
 \end{equation}
 %
 where $\bo{I}$ is an identity matrix. Since $\bo{L}$ is orthonormal, this is the same as $\bo{y} = (\bo{I} - \bo{L} \bo{L}^\top) \bo{a}$
@@ -313,13 +313,13 @@ Given vector $\bo{x}$, matrix $\bo{A}$ and its nulls space basis $\bo{N}$, and w
 We notice that if $\bo{x}$ is in the null space of $\bo{A}$, it will have zero projection onto the row space of $\bo{A}$. So, the condition is as follows:
 
 \begin{equation}
-    (\bo{I} - \bo{N} \bo{N}^+) \bo{x} = 0
+    (\bo{I} - \bo{N} \bo{N}^\top) \bo{x} = 0
 \end{equation}
 
 By the same logic, condition for being in the row space is as follows:
 
 \begin{equation}
-    \bo{N} \bo{N}^+ \bo{x} = 0
+    \bo{N} \bo{N}^\top \bo{x} = 0
 \end{equation}
 
 
@@ -380,7 +380,7 @@ We can prove it by observing that there can be only one $\bo{x}^p \in \mathcal{R
 If we have $\bo{x}^*$, which is a solution to $\bo{A} \bo{x} = \bo{y}$, we can find the particular solution $\bo{x}^p \in \mathcal{R}(\bo{A})$ as a projection:
 
 \begin{equation}
-    \bo{x}^p = (\bo{I} - \bo{N} \bo{N}^+) \bo{x}^*
+    \bo{x}^p = (\bo{I} - \bo{N} \bo{N}^\top) \bo{x}^*
 \end{equation}
 %
 where $\bo{N}$ is the null space basis for $\bo{A}$. Alternatively, we can simply find it as:
