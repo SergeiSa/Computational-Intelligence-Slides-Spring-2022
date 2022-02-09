@@ -43,7 +43,7 @@
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-	Consider the following problem: find smallest 2-norm $\bo{x}$ that equality $\bo{A}\bo{x} = \bo{y}$ has least residual. This is the \emph{least squares problem}.
+	Consider the following problem: find the smallest 2-norm $\bo{x}$ for which the equality $\bo{A}\bo{x} = \bo{y}$ has least residual. This is the \emph{least squares problem}.
 	
 \begin{itemize}
 	\item Residual is defined as $\bo{e} = \bo{A}\bo{x} - \bo{y}$
@@ -107,7 +107,7 @@
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-		You are given equation $\bo{A}\bo{x} = \bo{y}$. Assume that you want to find such $\bo{x}$ that $ \bo{y}$ achieves the value as close as possible to $\bo{y}^*$ in terms of the 2-norm.
+		You are given an equation $\bo{A}\bo{x} = \bo{y}$. You want to find an $\bo{x}$ that gets the value of $\bo{y}$ as close as possible to $\bo{y}^*$ in terms of the 2-norm.
 		
 		\bigskip
 		
@@ -117,7 +117,7 @@
 			\bo{y} = \bo{A}\bo{A}^+\bo{y}^*
 		\end{equation}
 	
-	This is the value of $\bo{y}$ closest to $\bo{y}^*$, that we can achieve.
+	This is the value of $\bo{y}$ that we can achieve, which is closest to $\bo{y}^*$.
 	
 	\end{flushleft}
 \end{frame}
@@ -148,7 +148,7 @@
 % \framesubtitle{Parameter estimation}
 \begin{flushleft}
 
-One of the key ideas in the linear algebra is that every linear operator has four fundamental subspaces:
+One of the key ideas in Linear Algebra is that every linear operator has four fundamental subspaces:
 
 \begin{itemize}
     \item Null space
@@ -159,7 +159,7 @@ One of the key ideas in the linear algebra is that every linear operator has fou
 
 \bigskip
 
-Our goal is to understand them. The usefulness of this understating is enormous.
+Our goal is to understand them. The usefulness of this concept is enormous.
 
 \end{flushleft}
 \end{frame}
@@ -222,7 +222,7 @@ where $\bo{z}$ are coordinates of $\bo{x}$ in the basis $\bo{N}$.
 
 \bigskip
 
-However, there are vectors which not only are not lying in the null space of $\bo{A}$,  but the closest vector to them in the null space is zero vector.
+However, there are vectors which not only are not lying in the null space of $\bo{A}$,  but the closest vector to them in the null space is the zero vector.
 
 \end{flushleft}
 \end{frame}
@@ -254,7 +254,7 @@ Let $\bo{A} = \begin{bmatrix} 0 & 1 \\ 0 & 0\end{bmatrix}$. Its null space has o
 \begin{flushleft}
 
 \begin{definition}
-Vectors $\bo{x}$ and $\bo{y}$, whose dot product is zero are called \emph{orthogonal} to each other.
+Any two vectors, $\bo{x}$ and $\bo{y}$, whose dot product is zero are said to be \emph{orthogonal} to each other.
 \end{definition}
 
 \begin{definition}
@@ -275,12 +275,12 @@ Vectors $\bo{x}$ and $\bo{y}$, whose dot product is zero are called \emph{orthog
 	\begin{flushleft}
 		
 		\begin{definition}
-			The space of all vectors $\bo{y}$, orthogonal to a linear subspace $\mathcal{L}$ is called \emph{orthogonal compliment} of $\mathcal{L}$ and is denoted as $\mathcal{L}^\perp$.
+			The space of all vectors $\bo{y}$, orthogonal to a linear subspace $\mathcal{L}$ is called \emph{orthogonal complement} of $\mathcal{L}$ and is denoted as $\mathcal{L}^\perp$.
 		\end{definition}
 		
 		
 		\begin{definition}[equivalent]
-			The space of all vectors $\bo{y}$, such that $\text{dot}(\bo{y}, \bo{x}) = 0$, $\forall \bo{x} \in \mathcal{L}$ is called \emph{orthogonal compliment} of $\mathcal{L}$.
+			The space of all vectors $\bo{y}$, such that $\text{dot}(\bo{y}, \bo{x}) = 0$, $\forall \bo{x} \in \mathcal{L}$ is called \emph{orthogonal complement} of $\mathcal{L}$.
 		\end{definition}
 		
 		Therefore $\bo{x} \in \mathcal{L}$ and $\bo{y} \in \mathcal{L}^\perp$ implies $\text{dot}(\bo{y}, \bo{x}) = 0$.
@@ -369,7 +369,7 @@ We will denote row space as $\mathcal{R}$.
 % \framesubtitle{Definition}
 \begin{flushleft}
 
-Given vector $\bo{x}$, matrix $\bo{A}$ and its nulls space basis $\bo{N}$, and we check if $\bo{x}$ is in the null space of $\bo{A}$. The simplest way is to check if $\bo{A}\bo{x} = 0$. But sometimes we may want to avoid computing $\bo{A}\bo{x}$, for example if the number of elements of $\bo{A}$ is much bigger than the number of elements of $\bo{N}$.
+Given vector $\bo{x}$, matrix $\bo{A}$ and its nulls space basis $\bo{N}$, and we check if $\bo{x}$ is in the null space of $\bo{A}$. The simplest way is to check if $\bo{A}\bo{x} = 0$. But sometimes we may want to avoid computing $\bo{A}\bo{x}$, for example if the number of elements of $\bo{A}$ is much larger than the number of elements of $\bo{N}$.
 
 \bigskip
 
