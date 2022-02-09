@@ -123,7 +123,7 @@ This is done in the same manner as we did with the null space:
     \bo{y}_c = \bo{A}\bo{A}^+ \bo{y} \in \mathcal{C}(\bo{A})
 \end{equation}
 
-This feels nice, as it only requires the matrix itself, no need for the orthonormal basis as before. However, you need to remember that the pseudoinverse is base on SVD decomposition, same as operations of finding a basis in the null space or column space.
+This feels nice, as it only requires the matrix itself, no need for the orthonormal basis as before. However, computing the pseudoinverse is based on SVD decomposition, same as finding a basis in the null space or the column space.
 
 \end{flushleft}
 \end{frame}
@@ -134,13 +134,17 @@ This feels nice, as it only requires the matrix itself, no need for the orthonor
 % \framesubtitle{Local coordinates}
 \begin{flushleft}
 
-In the same we can define a projector onto row space. Given vector $\bo{x}$ and matrix $\bo{A}$, let us find projector of $\bo{x}$ onto the row space of $\bo{A}$:
+Similarly we can define a projector onto row space. Given vector $\bo{x}$ and matrix $\bo{A}$, let us find projector of $\bo{x}$ onto the row space of $\bo{A}$:
 
 \begin{equation}
     \bo{x}_r = \bo{A}^+\bo{A} \bo{x} \in \mathcal{R}(\bo{A})
 \end{equation}
 
-You can think of this in the following terms: first we find what output $\bo{x}$ makes, then we find the smallest norm vector that produces this same output, and this vector has to 1) have the same row space projector (because output is the same), 2) has to lie in the row space, hence it is the row space projector of $\bo{x}$.
+You can think of this in the following terms: first we find what output $\bo{x}$ makes, then we find the smallest norm vector that produces this same output, and this vector has to 1) have the same row space projection (because output is the same), 2) has to lie in the row space, hence it is the row space projector of $\bo{x}$.
+
+\bigskip
+
+Notice that implicitly used the fact that columns of $\bo{A}^+$ lie in the row space of $\bo{A}$. We will prove this fact later. Additionally, we will prove that row space of $\bo{A}$ is equivalent to the column space of $\bo{A}^\top$.
 
 \end{flushleft}
 \end{frame}
@@ -157,19 +161,42 @@ The subspace, orthogonal to the column space is called \emph{left null space}.
 \bigskip
 
 \begin{definition}
-Space of all vectors that can't be produced as outputs of matrix $\bo{A}$ is called \emph{left null space}. Zero vector is included, as in linear spaces.
+	Space of all vectors $\bo{y}$ orthogonal to the columns of $\bo{A}$ is called \emph{left null space}: $\bo{y}^\top\bo{A} = 0$
 \end{definition}
+
+You can think of left null space as a space of vectors that not only cannot be produced by operator $\bo{A}$, but the closest to them vector that can be produced is the zero vector.
 
 \bigskip
 
-If we want to project vector $\bo{y}$ onto the left null space of $\bo{A}$, we do it as:
+We will later prove that left null space of $\bo{A}$ is equivalent to the null space of $\bo{A}^\top$.
 
-\begin{equation}
-    \bo{y}_l = (\bo{I} - \bo{A}\bo{A}^+) \bo{y} \in \mathcal{C}^\perp(\bo{A})
-\end{equation}
 
 \end{flushleft}
 \end{frame}
+
+
+
+
+\begin{frame}{Left null space projector}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+If we want to project vector $\bo{y}$ onto the left null space of $\bo{A}$, we do it as:
+
+\begin{equation}
+	\bo{y}_l = (\bo{I} - \bo{A}\bo{A}^+) \bo{y} \in \mathcal{C}^\perp(\bo{A})
+\end{equation}
+
+If $\bo{C}$ is an orthonormal basis in the column space of $\bo{A}$, the projection can be found the following way:
+
+\begin{equation}
+	\bo{y}_l = (\bo{I} - \bo{C}\bo{C}^\top) \bo{y} \in \mathcal{C}^\perp(\bo{A})
+\end{equation}
+
+		
+	\end{flushleft}
+\end{frame}
+
 
 
 

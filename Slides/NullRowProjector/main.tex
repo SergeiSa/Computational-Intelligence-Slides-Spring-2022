@@ -39,21 +39,64 @@
 
 
 
-\begin{frame}{Least squares at a glance}
+\begin{frame}{Least squares at a glance (1)}
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-	Consider the following problem: find smallest-norm $\bo{x}$ that equality $\bo{A}\bo{x} = \bo{y}$ has least residual. This is the \emph{least squares problem}.
+	Consider the following problem: find smallest 2-norm $\bo{x}$ that equality $\bo{A}\bo{x} = \bo{y}$ has least residual. This is the \emph{least squares problem}.
 	
-	\bigskip
-	
-	Solution to the least squares problem is given by a pseudoinverse:
-	
-	\begin{equation}
-		\bo{x} = \bo{A}^+\bo{y}
-	\end{equation}
+\begin{itemize}
+	\item Residual is defined as $\bo{e} = \bo{A}\bo{x} - \bo{y}$
+	\item The idea that we need to find the smallest 2-norm $\bo{x}$ and, at the same time, least residual $\bo{e}$ seems to call for compromise. However, we will find that there exist a linear subspace of solutions with the exact same residual, and on that subspace we can find $\bo{x}$ with the smallest norm.
+\end{itemize}	
+		
+	\end{flushleft}
+\end{frame}
 
-Notice that, surprisingly, this solves both minimizations at the same time: find smallest $\bo{x}$ among all least-residual solutions.
+
+
+
+\begin{frame}{Least squares at a glance (2)}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		Minimum of $||\bo{e}||_2 = ||\bo{A}\bo{x} - \bo{y}||_2$ is achieved at the same $\bo{x}$ as minimum of $(\bo{A}\bo{x} - \bo{y})^\top(\bo{A}\bo{x} - \bo{y})$. With that in mind, let us find its extremum:
+		
+		\begin{equation}
+			2\bo{A}^\top(\bo{A}\bo{x} - \bo{y}) = 0
+		\end{equation}
+		
+		\begin{equation}
+			\bo{A}^\top\bo{A}\bo{x} = \bo{A}^\top\bo{y}
+		\end{equation}
+	
+		\begin{equation}
+			\bo{x} = (\bo{A}^\top\bo{A})^{-1} \bo{A}^\top\bo{y}
+		\end{equation}
+		
+		Thus we can define a \emph{pseudoinverse}:
+		
+		\begin{equation}
+			\bo{A}^+ = (\bo{A}^\top\bo{A})^{-1} \bo{A}^\top
+		\end{equation}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Least squares at a glance (3)}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		Thus the least residual solution to $\bo{A}\bo{x} = \bo{y}$ is written as:
+		
+		\begin{equation}
+			\bo{x} = \bo{A}^+\bo{y}
+		\end{equation}
+		
+		We proved that this is the least-residual solution, we will prove that the solution is smallest norm (out of all solutions with the same residual) in the following lectures.
 		
 	\end{flushleft}
 \end{frame}
@@ -64,7 +107,7 @@ Notice that, surprisingly, this solves both minimizations at the same time: find
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-		You are given equation $\bo{A}\bo{x} = \bo{y}$. Assume that you want to find such $\bo{x}$ that $ \bo{y}$ achieves the value as close as possible to $\bo{y}^*$.
+		You are given equation $\bo{A}\bo{x} = \bo{y}$. Assume that you want to find such $\bo{x}$ that $ \bo{y}$ achieves the value as close as possible to $\bo{y}^*$ in terms of the 2-norm.
 		
 		\bigskip
 		
@@ -179,7 +222,7 @@ where $\bo{z}$ are coordinates of $\bo{x}$ in the basis $\bo{N}$.
 
 \bigskip
 
-However, there are vector which not only are not lying in the null space of $\bo{A}$,  but the closest vector to them in the null space is zero vector.
+However, there are vectors which not only are not lying in the null space of $\bo{A}$,  but the closest vector to them in the null space is zero vector.
 
 \end{flushleft}
 \end{frame}
@@ -206,23 +249,43 @@ Let $\bo{A} = \begin{bmatrix} 0 & 1 \\ 0 & 0\end{bmatrix}$. Its null space has o
 
 
 
-\begin{frame}{Orthogonality, definition}
+\begin{frame}{Orthogonality, definition (1)}
 % \framesubtitle{Orthogonality, definition}
 \begin{flushleft}
 
 \begin{definition}
-If for a vector $\bo{x}$, the closest vector to it from a linear subspace $\mathcal{L}$ is zero vector, $\bo{x}$ is called \emph{orthogonal} to the subspace $\mathcal{L}$. We denote it as $\bo{x} \in \mathcal{L}^\perp$.
+Vectors $\bo{x}$ and $\bo{y}$, whose dot product is zero are called \emph{orthogonal} to each other.
 \end{definition}
 
 \begin{definition}
-	(equivalent) A vector $\bo{x}$, orthogonal to all elements of the subspace $\mathcal{L}$ is called \emph{orthogonal} to the subspace $\mathcal{L}$.
+	Vector $\bo{x}$, whose dot product with any $\bo{y} \in \mathcal{L}$ is orthogonal to the subspace $\mathcal{L}$
 \end{definition}
 
-\begin{definition}
-The space of all vectors $\bo{x}$, orthogonal to a linear subspace $\mathcal{L}$ is called \emph{orthogonal compliment} of $\mathcal{L}$ and is denoted as $\mathcal{L}^\perp$.
+\begin{definition}[equivalent]
+	 If for a vector $\bo{x}$, the closest vector to it from a linear subspace $\mathcal{L}$ is zero vector, $\bo{x}$ is called orthogonal to the subspace $\mathcal{L}$.
 \end{definition}
+
 
 \end{flushleft}
+\end{frame}
+
+
+\begin{frame}{Orthogonality, definition (2)}
+	% \framesubtitle{Orthogonality, definition}
+	\begin{flushleft}
+		
+		\begin{definition}
+			The space of all vectors $\bo{y}$, orthogonal to a linear subspace $\mathcal{L}$ is called \emph{orthogonal compliment} of $\mathcal{L}$ and is denoted as $\mathcal{L}^\perp$.
+		\end{definition}
+		
+		
+		\begin{definition}[equivalent]
+			The space of all vectors $\bo{y}$, such that $\text{dot}(\bo{y}, \bo{x}) = 0$, $\forall \bo{x} \in \mathcal{L}$ is called \emph{orthogonal compliment} of $\mathcal{L}$.
+		\end{definition}
+		
+		Therefore $\bo{x} \in \mathcal{L}$ and $\bo{y} \in \mathcal{L}^\perp$ implies $\text{dot}(\bo{y}, \bo{x}) = 0$.
+		
+	\end{flushleft}
 \end{frame}
 
 
@@ -233,7 +296,7 @@ The space of all vectors $\bo{x}$, orthogonal to a linear subspace $\mathcal{L}$
 \framesubtitle{Part 1}
 \begin{flushleft}
 
-Let $\bo{L}$ be an orthonormal basis in a linear subspace $\mathcal{L}$. Take vector $\bo{a} = \bo{x} + \bo{y}$, where $\bo{x}$ lies in the subspace $\mathcal{L}$, and $\bo{y}$ is orthogonal to $\mathcal{L}$.
+Let $\bo{L}$ be an orthonormal basis in a linear subspace $\mathcal{L}$. Take vector $\bo{a} = \bo{x} + \bo{y}$, where $\bo{x}$ lies in the subspace $\mathcal{L}$, and $\bo{y}$ lies in the subspace $\mathcal{L}^\perp$.
 
 \bigskip
 
@@ -243,7 +306,7 @@ We call such vector $\bo{x}$ a \emph{projection} of $\bo{a}$ onto subspace $\mat
 
 \bigskip
 
-Projection of $\bo{a}$ onto $\mathcal{L}$ can be found as: 
+Projection is the closest element in the subspace to a given vector. Projection of $\bo{a}$ onto $\mathcal{L}$ can be found as: 
 
 \begin{equation}
     \bo{x} = \bo{L} \bo{L}^+ \bo{a}
@@ -289,7 +352,7 @@ Let $\mathcal{N}$ be null space of $\bo{A}$. Then orthogonal subspace $\mathcal{
 \end{definition}
 
 \begin{definition}
-\emph{Row space} of $\bo{A}$ is the space of all smallest-norm solutions of $\bo{A}\bo{x} = \bo{y}$, for $\forall \bo{y}$, plus the zero vector, which is included in all linear subspaces.
+\emph{Row space} of $\bo{A}$ is the space of all smallest-norm solutions of $\bo{A}\bo{x} = \bo{y}$, for $\forall \bo{y}$.
 \end{definition}
 
 \bigskip
@@ -310,7 +373,7 @@ Given vector $\bo{x}$, matrix $\bo{A}$ and its nulls space basis $\bo{N}$, and w
 
 \bigskip
 
-We notice that if $\bo{x}$ is in the null space of $\bo{A}$, it will have zero projection onto the row space of $\bo{A}$. So, the condition is as follows:
+If $\bo{x}$ is in the null space of $\bo{A}$, it will have zero projection onto the row space of $\bo{A}$. This gives us the condition we can check:
 
 \begin{equation}
     (\bo{I} - \bo{N} \bo{N}^\top) \bo{x} = 0
