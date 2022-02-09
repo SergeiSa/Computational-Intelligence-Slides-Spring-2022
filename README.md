@@ -2,21 +2,23 @@
 * Lecture 1 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/Introduction
 * Lecture 2 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/NullRowProjector
 * Lecture 3 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/ColumnLeftNullApplications
-* Lecture 4 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/LeastSquares_QuadraticProgramming
-* Lecture 5 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/ConvexDomains
-* Lecture 6 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/LMI_ConvexDomains
-* Lecture 7 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/Linear_Programming
-* Lecture 8 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/QCQP_SOCP
-* Lecture 9 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/SDP
-* Lecture 10 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/MICP
-* Lecture 11 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/BarrierFunctions
-* Lecture 12 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/MiniMax
+* Lecture 4 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/SVD
+* Lecture 5 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/LeastSquares_QuadraticProgramming
+* Lecture 6 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/ConvexDomains
+* Lecture 7 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/LMI_ConvexDomains
+* Lecture 8 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/Linear_Programming
+* Lecture 9 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/QCQP_SOCP
+* Lecture 10 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/SDP
+* Lecture 11 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/MICP
+* Lecture 12 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/BarrierFunctions
+* Lecture 13 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/MiniMax
 
 
 # Lecture videos:
 * Class 1: https://youtu.be/YB-Pm6dPR7s
-* Class 2: https://youtu.be/B25aDL0knIQ (2021), https://youtu.be/u7CT63Vz8sM (2022)
-* Class 3: https://youtu.be/G3698D8lMk4
+* Class 2 (fundamental subspaces): https://youtu.be/B25aDL0knIQ (2021), https://youtu.be/u7CT63Vz8sM (2022)
+* Class 3 (fundamental subspaces): https://youtu.be/G3698D8lMk4
+* Class (SVD): https://youtu.be/8ELVCgOLXvc (2022)
 * Class 4: https://youtu.be/sU9H3KIdl_Q
 * Class 5: https://youtu.be/m1VBodm9fyA
 * Class 6 (practical session): https://youtu.be/JSt-6UBNyM4
