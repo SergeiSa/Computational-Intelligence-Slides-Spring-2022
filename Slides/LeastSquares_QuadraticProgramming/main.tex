@@ -56,7 +56,7 @@ Taking derivative with respect to $\mathbf{x}$ we find gradient of the obtained 
 \end{frame}
 
 \begin{frame}{Problems with analytical solutions}
-\framesubtitle{Part 2}
+%\framesubtitle{Part 2}
 \begin{flushleft}
 
 Thus we get expression: $2\mathbf{x}^\top\mathbf{A}^\top\mathbf{A} = -2\mathbf{b}^\top\mathbf{A}$, which we transpose and find value of $\mathbf{x}$:
@@ -85,26 +85,11 @@ However, neither \eqref{pinv} not \eqref{projector} should be directly used in a
 
 
 \begin{frame}{Problems with analytical solutions}
-\framesubtitle{Part 3}
+%\framesubtitle{Part 3}
 \begin{flushleft}
 
+
 Problem 4. 
-%
-\begin{equation}
-\begin{aligned}
-& \underset{\mathbf{x}}{\text{minimize}}
-& & || \mathbf{x} ||, \\
-& \text{subject to}
-& & \mathbf{A} \mathbf{x} + \mathbf{B} \mathbf{y} = \mathbf{c}.
-\end{aligned}
-\label{prob4}
-\end{equation}
-
-We already solved this problem before, during lecture 3, using projection. Solution is: $\mathbf{x} = ((\mathbf{I} - \mathbf{B}\mathbf{B}^+) \mathbf{A})^+(\mathbf{I} - \mathbf{B}\mathbf{B}^+) \mathbf{c}$. Note that the sign in front of the expression is different, since here $\mathbf{c}$ is positive on the right-hand side of the eq.\ref{prob4}, while in the lecture 3 this vector for positive on the left-hand side. 
-
-\bigskip
-
-Problem 5. 
 %
 \begin{equation}
 \begin{aligned}
@@ -115,7 +100,10 @@ Problem 5.
 \end{aligned}
 \end{equation}
 
-We can treat is as a special case of the previous problem, where $\mathbf{B} = \mathbf{0}$, hence $(\mathbf{I} - \mathbf{B}\mathbf{B}^+) = \mathbf{I}$, and the solution is: $\mathbf{x} = \mathbf{A}^+\mathbf{c}$.
+
+All solutions to $\mathbf{A} \mathbf{x} = \mathbf{c}$ are written as $\mathbf{x} = \mathbf{A}^+\mathbf{c} + \mathbf{N}\mathbf{z}$, where $\mathbf{N} = \text{null}(\mathbf{A})$, and $\mathbf{A}^+\mathbf{c} \in \text{row}(\mathbf{A})$ as we proved previously. Since null space solution $\mathbf{N}\mathbf{z}$ and row space paricular solution $\mathbf{A}^+\mathbf{c}$ are orthagonal, the minimum norm solution corresponds to $\mathbf{z} = \mathbf{0}$, hence $\mathbf{x} = \mathbf{A}^+\mathbf{c}$.
+
+
 
 \end{flushleft}
 \end{frame}
@@ -123,18 +111,16 @@ We can treat is as a special case of the previous problem, where $\mathbf{B} = \
 
 
 \begin{frame}{Problems with analytical solutions}
-\framesubtitle{Part 4}
+%\framesubtitle{Part 4}
 \begin{flushleft}
 
-Notice that solutions for the problem 5 and problem 3 are written identically, even though problem 3 asks us to minimize residual of the linear system, while problem 5 - find minimum norm solution. 
+
+Thus, the solution is  $\mathbf{x} = \mathbf{A}^+\mathbf{c}$. Notice that solutions for the problem 4 and problem 3 are written identically, even though problem 3 asks us to minimize residual of the linear system, while problem 4 - find minimum norm solution. 
 
 \bigskip
 
 This illustrates an important fact that solution to the least squares problem, formulated either as "minimization of a residual" or as a "minimum norm solution" are given by the same formula, which we call Moore-Penrose pseudoinverse.
 
-\bigskip
-
-Another way to achieve the same result is to see that all solutions to $\mathbf{A} \mathbf{x} = \mathbf{c}$ are written as $\mathbf{x} = \mathbf{A}^+\mathbf{c} + \mathbf{N}\mathbf{z}$, where $\mathbf{N} = \text{null}(\mathbf{A})$, and $\mathbf{A}^+\mathbf{c} \in \text{row}(\mathbf{A})$ as we proved previously. Since null space solution $\mathbf{N}\mathbf{z}$ and row space paricular solution $\mathbf{A}^+\mathbf{c}$ are orthagonal, the minimum norm solution corresponds to $\mathbf{z} = \mathbf{0}$, hence $\mathbf{x} = \mathbf{A}^+\mathbf{c}$.
 
 \end{flushleft}
 \end{frame}
@@ -144,10 +130,10 @@ Another way to achieve the same result is to see that all solutions to $\mathbf{
 
 
 \begin{frame}{Problems with analytical solutions}
-\framesubtitle{Part 4}
+%\framesubtitle{Part 4}
 \begin{flushleft}
 
-Problem 6. 
+Problem 5. 
 %
 \begin{equation}
 \begin{aligned}
@@ -158,7 +144,8 @@ Problem 6.
 \end{aligned}
 \end{equation}
 
-One way to think about it is to first find all solution to the constraint equation $\mathbf{A} \mathbf{x} = \mathbf{b}$ and then find optimal one among them. As we know, all solutions are given as: $\mathbf{x} = \mathbf{A}^+\mathbf{b} + \mathbf{N}\mathbf{z}$, where $\mathbf{N} = \text{null}(\mathbf{A})$. Then our cost function becomes: $|| \mathbf{D}\mathbf{A}^+\mathbf{b} +  \mathbf{D}\mathbf{N}\mathbf{z} ||$, which is equivalent to the problem 3. Thus, we can write solution as: $\mathbf{z}^* = -(\mathbf{D}\mathbf{N})^+ \mathbf{D}\mathbf{A}^+\mathbf{b}$. In terms of $\mathbf{x}$ solution is:
+One way to think about it is to first find all solution to the constraint equation $\mathbf{A} \mathbf{x} = \mathbf{b}$ and then find optimal one among them. As we know, all solutions are given as: $\mathbf{x} = \mathbf{A}^+\mathbf{b} + \mathbf{N}\mathbf{z}$, where $\mathbf{N} = \text{null}(\mathbf{A})$. Then our cost function becomes: $|| \mathbf{D}\mathbf{A}^+\mathbf{b} +  \mathbf{D}\mathbf{N}\mathbf{z} ||$, which is equivalent to the problem 3. Thus, we can write solution as: 
+$\mathbf{z}^* = -(\mathbf{D}\mathbf{N})^+ \mathbf{D}\mathbf{A}^+\mathbf{b}$. In terms of $\mathbf{x}$ solution is:
 
 \begin{equation}
     \mathbf{x}^* = \mathbf{A}^+\mathbf{b}-\mathbf{N}(\mathbf{D}\mathbf{N})^+ \mathbf{D}\mathbf{A}^+\mathbf{b}
@@ -170,10 +157,10 @@ One way to think about it is to first find all solution to the constraint equati
 
 
 \begin{frame}{Problems with analytical solutions}
-\framesubtitle{Part 5}
+%\framesubtitle{Part 5}
 \begin{flushleft}
 
-Problem 7. 
+Problem 6. 
 %
 \begin{equation}
 \begin{aligned}
@@ -201,10 +188,10 @@ After the same initial step, we arrive at the cost function $|| \mathbf{D}\mathb
 
 
 \begin{frame}{Problems with analytical solutions}
-\framesubtitle{Part 6}
+%\framesubtitle{Part 6}
 \begin{flushleft}
 
-Problem 8. 
+Problem 7. 
 %
 \begin{equation}
 \begin{aligned}
@@ -223,7 +210,7 @@ Assume that we found a decomposition $\mathbf{H} = \mathbf{D}^\top\mathbf{D}$. W
 
 \bigskip
 
-Therefore the problem has the same solution as Problem 6, after the mentioned above change in constants.
+Therefore the problem has the same solution as Problem 5, after the mentioned above change in constants.
 
 \end{flushleft}
 \end{frame}

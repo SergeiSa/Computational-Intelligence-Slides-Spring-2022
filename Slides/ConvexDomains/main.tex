@@ -48,7 +48,7 @@ Problem 2. Find minimum of the function $f = x^2 + 2y^2$ if $x \in [1 \ 2]$ and 
 Note that solutions of problems 1 and 2 are different, and this is only due to the difference of the allowed values that the \emph{decision variables} $x$ and $y$ can assume.
 
 \begin{block}{Definition 1}
-Space of all allowed values that decision variables can assume is called \emph{domain} of the optimization problem.
+Space of all allowed values that decision variables can assume is called the \emph{domain} of optimization problem.
 \end{block}
  
 \end{flushleft}
@@ -76,7 +76,7 @@ The major difference between domains of the problems 2, 3 vs problems 1, 4 and 5
 
 \bigskip
 
-We can see that in the case of problems 3-5, bounding the domain allows the problem to obtain a solution.
+We can see that in the case of problems 3-5, bounded domain allows the problem to have a solution.
  
 \end{flushleft}
 \end{frame}
@@ -87,15 +87,15 @@ We can see that in the case of problems 3-5, bounding the domain allows the prob
 \framesubtitle{Part 2}
 \begin{flushleft}
 
-Problem 6. Find maximum of the function $f = x^2$ if $1 <=x < 2$. It has no solution.
+Problem 6. Find maximum of the function $f = x^2$ if $1 \leq x < 2$. It has no solution.
 
 \bigskip
 
-Problem 7. Find minimum of the function $f = x^2$ if $1 <=x < 2$. Solution is $x = 1$.
+Problem 7. Find minimum of the function $f = x^2$ if $1 \leq x < 2$. Solution is $x = 1$.
 
 \bigskip
 
-This time, the fact that the one of the \emph{boundaries} of the domain were not included lead problem 6 to have no solution, while problem 7 had one. For problem 6 we can pick a value arbitrary close to $x = 2$, approaching it from the left, but for any pick of the decision variable we can make, there always will be other values of the decision variable closer to $x = 2$ and hence producing larger values of $f$.
+This time, it is the fact that one of the \emph{boundaries} of the domain was not included in the domain that has lead the problem 6 to have no solution, while problem 7 had one. For the problem 6 we can pick a value arbitrary close to $x = 2$, approaching it from the left, but for any such value, there always will be other values of the decision variable closer to $x = 2$ and hence producing larger values of $f$.
  
 \end{flushleft}
 \end{frame}
@@ -142,41 +142,80 @@ Domain is \emph{convex} iff for any two points in the domain, the line segment c
 
 
 
+\begin{frame}{Convex combination}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		
+		In the proofs it is convenient to remember that for any two points $\mathbf{x}_1$ and $\mathbf{x}_2$, all points in the line segment connecting them are given as $\mathbf{x}_l = \alpha \mathbf{x}_1 + (1 - \alpha) \mathbf{x}_2$, where $\alpha \in [0 \ 1]$. This is called \emph{convex combination}.
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
 \begin{frame}{Examples of convex domains}
 % \framesubtitle{Parameter estimation}
 \begin{flushleft}
 
-$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \mathbb{R}^n$  is convex. Prove it.
+$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \mathbb{R}^n$  is convex.
 
 \bigskip
 
-$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x} \leq \mathbf{h} \}$ is convex. Prove it.
+$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x} \leq \mathbf{h} \}$ is convex.
 
 \bigskip
 
-$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^2: \ x_1^2+x_2^2 \leq h^2 \}$ is convex. Prove it.
-
+Proof: Note that $\alpha \mathbf{x}_1 \leq \alpha \mathbf{h}$ and $(1 - \alpha) \mathbf{x}_2 \leq (1 - \alpha) \mathbf{h}$, hence, $\alpha \mathbf{x}_1 + (1 - \alpha) \mathbf{x}_2 \leq 
+\alpha \mathbf{h} + (1 - \alpha) \mathbf{h} = \mathbf{h}$. \qedsymbol
+ 
+\bigskip
+ 
+$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^2: \ x_1^2+x_2^2 \leq h^2 \}$ is convex.
+ 
 \bigskip
 
-$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x}^\top \mathbf{H} \mathbf{x} \leq h \}$, where $\mathbf{H} \succ 0$ is positive-definite symmetric matrix is convex. Prove it.
+Proof: This is the same as $|| \mathbf{x} || \leq h$. Note that $|| \alpha \mathbf{x}_1 || \leq \alpha h$ and $|| (1 - \alpha) \mathbf{x}_2 || \leq (1 - \alpha) h$, also 
 
-\bigskip
+$$|| \alpha \mathbf{x}_1 + (1 - \alpha) \mathbf{x}_2 || \leq || \alpha \mathbf{x}_1 || + || (1 - \alpha) \mathbf{x}_2 ||$$
+$$|| \alpha \mathbf{x}_1 || + || (1 - \alpha) \mathbf{x}_2 || \leq \alpha h + (1 - \alpha) h = h$$ 
 
-In the proofs it is convenient to remember that for any two points $\mathbf{x}_1$ and $\mathbf{x}_2$, all points in the line segment connecting them are given as $\mathbf{x}_l = \alpha \mathbf{x}_1 + (1 - \alpha) \mathbf{x}_2$, where $\alpha \in [0 \ 1]$. This is called \emph{convex combination}.
+So the convex combination of $\mathbf{x}_1$ and $\mathbf{x}_2$ is still in the domain. \qedsymbol
+ 
  
 \end{flushleft}
 \end{frame}
+
+
+
+
+
+
+\begin{frame}{Examples of convex domains}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x}^\top \mathbf{H} \mathbf{x} \leq 1 \}$, where $\mathbf{H} \succ 0$ is positive-definite symmetric matrix is convex. 
+		
+		\bigskip
+		
+		For any positive-definite symmetric $\mathbf{H}$ it is true that $\mathbf{H} = \mathbf{D}^\top\mathbf{D}$, where $\mathbf{D} = \sqrt{\mathbf{H}}$ is called a matrix square root and it is full rank. With that $\mathbf{x}^\top \mathbf{H} \mathbf{x} \leq 1$ becomes $\mathbf{x}^\top \mathbf{D}^\top\mathbf{D} \mathbf{x} \leq 1$. Defining $\mathbf{y} = \mathbf{D} \mathbf{x}$ we get $\mathcal{X} = \{ \mathbf{D}^{-1}\mathbf{y}: \ \mathbf{y}^\top \mathbf{y} \leq 1 \}$. This is a linearly deformed previously covered domain, and as such it is also convex.
+		
+	\end{flushleft}
+\end{frame}
+
 
 
 \begin{frame}{Examples of non-convex domains}
 % \framesubtitle{Parameter estimation}
 \begin{flushleft}
 
-$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x} \geq \mathbf{h} \}$ is not convex. Prove it.
+%$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x} \geq \mathbf{h} \}$ is not convex. Prove it.
+%
+%\bigskip
 
-\bigskip
-
-$x \in \mathcal{X}$, $\mathcal{X} = [-1 \ 2] \cup [3 \ 7]$ is not convex. Prove it.
+$x \in \mathcal{X}$, $\mathcal{X} = [-1 \ 2] \cup [3 \ 7]$ is not convex..
 
 \bigskip
 
@@ -184,7 +223,7 @@ $\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^2: \ x
 
 \bigskip
 
-$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x}^\top \mathbf{H} \mathbf{x} \geq h \}$, where $\mathbf{H}$ is positive-definite symmetric matrix is not convex. Prove it.
+$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x}^\top \mathbf{H} \mathbf{x} \geq 1 \}$, where $\mathbf{H}$ is positive-definite symmetric matrix is not convex. Prove it.
 
 \bigskip
 
