@@ -19,7 +19,9 @@
 * Class 2 (fundamental subspaces): https://youtu.be/B25aDL0knIQ (2021), https://youtu.be/u7CT63Vz8sM (2022)
 * Class 3 (fundamental subspaces): https://youtu.be/G3698D8lMk4
 * Class (SVD): https://youtu.be/8ELVCgOLXvc (2022)
-* Class 4: https://youtu.be/sU9H3KIdl_Q
+* Class 4 (Least squares and Qaudratic programming): https://youtu.be/HN2ubR1lCb4 (2022)
+* Class (Convex Domains): https://youtu.be/sU9H3KIdl_Q (2021)
+* 
 * Class 5: https://youtu.be/m1VBodm9fyA
 * Class 6 (practical session): https://youtu.be/JSt-6UBNyM4
 * Class 7: https://youtu.be/HaD7Swxh-mo
