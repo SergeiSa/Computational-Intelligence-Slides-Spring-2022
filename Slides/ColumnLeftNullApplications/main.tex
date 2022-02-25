@@ -98,7 +98,7 @@ Let $\bo{A}$ be a square matrix, a map from $\mathbb{X} = \R^n$ to $\mathbb{Y} =
   \end{aligned}
 \end{equation}
 
-In fact, if null space of $\bo{A}$ has $k$ dimensions, it implies that an $n$-dimentional subspace of $\mathbb{X}$ is mapped to a single element of $\mathbb{Y}$. 
+In fact, if null space of $\bo{A}$ has $k$ dimensions, it implies that an $n$-dimensional subspace of $\mathbb{X}$ is mapped to a single element of $\mathbb{Y}$. 
 
 \bigskip
 
@@ -134,7 +134,7 @@ This feels nice, as it only requires the matrix itself, no need for the orthonor
 % \framesubtitle{Local coordinates}
 \begin{flushleft}
 
-Similarly we can define a projector onto row space. Given vector $\bo{x}$ and matrix $\bo{A}$, let us find projector of $\bo{x}$ onto the row space of $\bo{A}$:
+Similarly we can define a projector onto the row space. Given vector $\bo{x}$ and matrix $\bo{A}$, let us find projector of $\bo{x}$ onto the row space of $\bo{A}$:
 
 \begin{equation}
     \bo{x}_r = \bo{A}^+\bo{A} \bo{x} \in \mathcal{R}(\bo{A})
@@ -144,7 +144,7 @@ You can think of this in the following terms: first we find what output $\bo{x}$
 
 \bigskip
 
-Notice that implicitly used the fact that columns of $\bo{A}^+$ lie in the row space of $\bo{A}$. We will prove this fact later. Additionally, we will prove that row space of $\bo{A}$ is equivalent to the column space of $\bo{A}^\top$.
+Notice that we implicitly used the fact that columns of $\bo{A}^+$ lie in the row space of $\bo{A}$. We will prove this fact later. Additionally, we will prove that row space of $\bo{A}$ is equivalent to the column space of $\bo{A}^\top$.
 
 \end{flushleft}
 \end{frame}
@@ -164,7 +164,7 @@ The subspace, orthogonal to the column space is called \emph{left null space}.
 	Space of all vectors $\bo{y}$ orthogonal to the columns of $\bo{A}$ is called \emph{left null space}: $\bo{y}^\top\bo{A} = 0$
 \end{definition}
 
-You can think of left null space as a space of vectors that not only cannot be produced by operator $\bo{A}$, but the closest to them vector that can be produced is the zero vector.
+You can think of left null space as a space of vectors that not only cannot be produced by operator $\bo{A}$, but the closest vector to them that can be produced is the zero vector.
 
 \bigskip
 
@@ -205,7 +205,10 @@ If $\bo{C}$ is an orthonormal basis in the column space of $\bo{A}$, the project
 % \framesubtitle{Parameter estimation}
 \begin{flushleft}
 
-Given LTI system $\dot{\bo{x}} = \bo{A} \bo{x} + \bo{B} \bo{u}$, where $\bo{x} \in \R^n$, $\bo{u} \in \R^m$, 1) find if there are states that can be made into fixed points, 2) find all states that can be made into fixed points with a constant control law.
+Given LTI system $\dot{\bo{x}} = \bo{A} \bo{x} + \bo{B} \bo{u}$, where $\bo{x} \in \R^n$, $\bo{u} \in \R^m$, 
+
+1) find if there are states that can be made into fixed points, \\
+2) find all states that can be made into fixed points with a constant control law.
 
 \bigskip
 
@@ -224,7 +227,10 @@ Solution:
 % \framesubtitle{Parameter estimation}
 \begin{flushleft}
 
-Given LTI system $\dot{\bo{x}} = \bo{A} \bo{x} + \bo{B} \bo{u}$, where $\bo{x} \in \R^n$, $\bo{u} \in \R^m$, 1) check if $\bo{x}^*$ can be made into a fixed point, 2) find control constant $\bo{u}^*$ that does it, given control law $\bo{u} = -\bo{K}\bo{x} + \bo{u}^*$.
+Given LTI system $\dot{\bo{x}} = \bo{A} \bo{x} + \bo{B} \bo{u}$, where $\bo{x} \in \R^n$, $\bo{u} \in \R^m$, and control law $\bo{u} = -\bo{K}\bo{x} + \bo{u}^*$
+
+1) check if $\bo{x}^*$ can be made into a fixed point, \\
+2) find control constant $\bo{u}^*$ that does it.
 
 \bigskip
 
