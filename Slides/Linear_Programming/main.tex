@@ -239,6 +239,38 @@ where $r$ is the radius of the ball and $\mathbf{x}_c$ is its center.
 \end{frame}
 
 
+
+\begin{frame}{Chebyshev center of a polyhedron}
+	\framesubtitle{Max over the dot product}
+	\begin{flushleft}
+		
+		Before we move towards solving the problem, let us consider the following maximization: 
+		
+		\begin{equation}
+			\text{sup} \{ \mathbf{a}^\top \mathbf{u}: \ ||\mathbf{u}||_2 \leq r \}
+		\end{equation}
+	
+	We can re-write the expression:
+	
+		\begin{equation}
+			\text{sup} \{ \mathbf{a}^\top \mathbf{u}: \ ||\mathbf{u}||_2 \leq r \}  = 
+			\text{sup} \{ ||\mathbf{a}|| \cdot ||\mathbf{u}|| \text{cos}(\varphi): \ ||\mathbf{u}||_2 \leq r \}
+		\end{equation}
+%	
+where $\varphi$ is the angle between $\mathbf{a}$ and $\mathbf{u}$. Since $\mathbf{a}$ is constant, $\text{max}(||\mathbf{u}||) = r$ and $\text{max}(\text{cos}(\varphi)) = 1$, we get:
+	
+	\begin{equation}
+		\text{sup} \{ \mathbf{a}^\top \mathbf{u}: \ ||\mathbf{u}||_2 \leq r \}  = 
+		 ||\mathbf{a}|| r
+	\end{equation}
+	
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
 \begin{frame}{Chebyshev center of a polyhedron}
 \framesubtitle{Solution as LP, part one}
 \begin{flushleft}
@@ -298,6 +330,100 @@ Below we can see MATLAB code for solving the problem:
  
 \end{flushleft}
 \end{frame}
+
+
+
+
+\begin{frame}{Linear-Fractional Programming}
+	\framesubtitle{Formulation}
+	\begin{flushleft}
+		
+		The following is the Linear-Fractional Programming problem:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\mathbf{x}}{\text{maximize}}
+				& & \frac{\mathbf{c}^\top \mathbf{x} + d}{\mathbf{e}^\top \mathbf{x} + f} \\
+				& \text{subject to}
+				& & 
+				 \begin{cases}
+				 	\mathbf{A} \mathbf{x} \leq \mathbf{b} \\
+				 	\mathbf{A}_e \mathbf{x} = \mathbf{b}_e
+				 \end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		This doesn't look like an LP, but let us see if we can try to bring this problem into this form. 
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Linear-Fractional Programming}
+	\framesubtitle{LP form}
+	\begin{flushleft}
+		
+		The following is the Linear-Fractional Programming problem in LP form:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\mathbf{y}, \ z}{\text{maximize}}
+				& & \mathbf{c}^\top \mathbf{y} + z d \\
+				& \text{subject to}
+				& & 
+				\begin{cases}
+					\mathbf{A} \mathbf{y} \leq z \mathbf{b} \\
+					\mathbf{A}_e \mathbf{y} = z \mathbf{b}_e \\
+					\mathbf{e}^\top \mathbf{y} + z f = 1 \\
+					z \geq 0
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		Here the variables $\mathbf{y}$ and $z$ are related to $\mathbf{x}$ as follows.
+		
+		\begin{equation}
+			\mathbf{y} = \frac{\mathbf{x}}{\mathbf{e}^\top \mathbf{x} + f}
+		\end{equation}
+	 
+	\begin{equation}
+	\mathbf{z} = \frac{1}{\mathbf{e}^\top \mathbf{x} + f}
+	\end{equation} 
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Linear-Fractional Programming}
+	\framesubtitle{details}
+	\begin{flushleft}
+		
+		We assumed that the domain of the previous problem is limited to $\mathbf{e}^\top \mathbf{x} + f \geq 0$. With that we have:
+		
+		\begin{equation}
+			 \mathbf{c}^\top \mathbf{y} + z d 
+			 = 
+			 \mathbf{c}^\top\frac{\mathbf{x}}{\mathbf{e}^\top \mathbf{x} + f} + \frac{1}{\mathbf{e}^\top \mathbf{x} + f} d 
+			 =
+			 \frac{\mathbf{c}^\top\mathbf{x} + d}{\mathbf{e}^\top \mathbf{x} + f}
+		\end{equation}
+		
+		
+		\begin{equation}
+			\mathbf{A} \mathbf{y} \leq z \mathbf{b} 
+			\implies
+			\mathbf{A} \frac{\mathbf{x}}{\mathbf{e}^\top \mathbf{x} + f} \leq \frac{1}{\mathbf{e}^\top \mathbf{x} + f} \mathbf{b} 
+			\implies
+			\mathbf{A} \mathbf{x} \leq \mathbf{b} 
+		\end{equation}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
 
 
 
