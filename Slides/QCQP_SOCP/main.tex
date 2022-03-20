@@ -141,7 +141,7 @@ Set $\mathbf{P}_0 = \mathbf{0}$ and you get an LP.
 
 
 
-\begin{frame}{Second-order cone programming}
+\begin{frame}{Second-order cone programming (SOCP)}
 \framesubtitle{General form}
 \begin{flushleft}
 
@@ -166,6 +166,84 @@ LP, QP and QCQP are subsets of SOCP.
  
 \end{flushleft}
 \end{frame}
+
+
+
+
+\begin{frame}{SOC constraints, 1}
+%	\framesubtitle{General form}
+	\begin{flushleft}
+		
+		Consider the following SOC constraint:
+		
+		\begin{equation}
+			\label{eq:SOC}
+			||\mathbf{A}\mathbf{x} + \mathbf{b}||_2 \leq 
+			\mathbf{c}^\top \mathbf{x} + d
+		\end{equation}
+		
+		Let us consider a special case when $\mathbf{x} \in \R^n$, $\text{rank}\left(\begin{bmatrix}
+			\mathbf{A} \\ \mathbf{c}^\top
+		\end{bmatrix}\right) = n$. Then we can introduce the following substitution:
+		
+		\begin{equation}
+			\xi = \begin{bmatrix}
+				\mathbf{A} \\ \mathbf{c}^\top
+			\end{bmatrix}
+			\mathbf{x} + 
+			\begin{bmatrix}
+				\mathbf{b} \\ d
+			\end{bmatrix}, 
+		\ \ \ 
+		\mathbf{I} = 
+		\begin{bmatrix}
+			\mathbf{E} \\ \mathbf{e}^\top
+		\end{bmatrix}
+		\end{equation}
+%
+where $\mathbf{I} \in\R^{n, n}$ is an identity matrix. Then constraint \eqref{eq:SOC} becomes:
+
+		\begin{equation}
+	||\mathbf{E}\xi||_2 \leq 
+	\mathbf{e}^\top \xi
+		\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{SOC constraints, 2}
+	%	\framesubtitle{General form}
+	\begin{flushleft}
+		
+		Notice that $||\mathbf{E}\xi||_2 \leq 
+		\mathbf{e}^\top \xi$ is equivalent to:
+		
+		\begin{equation}
+			\sum\limits_{i=1}^{n-1}\xi_i^2 \leq \xi_n^2 
+		\end{equation}
+%	
+	which is a standard form of a cone. A map back from $\xi$ to $\mathbf{x}$ is given as:
+	
+	\begin{equation}
+		\mathbf{x} = \begin{bmatrix}
+			\mathbf{A} \\ \mathbf{c}^\top
+		\end{bmatrix}^{-1}
+	\left(
+		\xi - 
+		\begin{bmatrix}
+			\mathbf{b} \\ d
+		\end{bmatrix}
+	\right)
+	\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
 
 
 
@@ -207,7 +285,7 @@ Same for ellipsoidal constraints:
 \framesubtitle{Part 1}
 \begin{flushleft}
 
-Set $\mathbf{c}_i = 0$ and $d_i = 0$ and recognize that $||\mathbf{A}_i\mathbf{x} + \mathbf{b}_i||_2 \leq 0$ is the same as $(\mathbf{A}_i\mathbf{x} + \mathbf{b}_i)^\top (\mathbf{A}_i\mathbf{x} + \mathbf{b}_i) \leq 0$
+Set $\mathbf{c}_i = 0$ and recognize that $||\mathbf{A}_i\mathbf{x} + \mathbf{b}_i||_2 \leq d_i$ is the same as $(\mathbf{A}_i\mathbf{x} + \mathbf{b}_i)^\top (\mathbf{A}_i\mathbf{x} + \mathbf{b}_i) \leq d_i^2$ (since the first implies that $d_i$ is non-negative).
 
 \bigskip
 %
@@ -219,7 +297,7 @@ Set $\mathbf{c}_i = 0$ and $d_i = 0$ and recognize that $||\mathbf{A}_i\mathbf{x
 & & \begin{cases}
     \bo{x}^\top \bo{A}_i^\top \bo{A}_i \bo{x} + 
     2 \bo{b}_i^\top \bo{A}_i\bo{x} + 
-    \bo{b}_i^\top \bo{b}_i  \leq 0\\
+    \bo{b}_i^\top \bo{b}_i  \leq d_i^2\\
     \bo{F}\bo{x} = \bo{g}.
     \end{cases}
 \end{aligned}
@@ -240,7 +318,7 @@ Now to make the cost quadratic:
 %
 \begin{equation}
 \begin{aligned}
-& \underset{\bo{x}}{\text{minimize}}
+& \underset{\bo{x}, t}{\text{minimize}}
 & & t, \\
 & \text{subject to}
 & & \begin{cases}
@@ -249,7 +327,7 @@ Now to make the cost quadratic:
     \bo{b}_0^\top \bo{b}_0  \leq t\\
     \bo{x}^\top \bo{A}_i^\top \bo{A}_i \bo{x} + 
     2 \bo{b}_i^\top \bo{A}_i\bo{x} + 
-    \bo{b}_i^\top \bo{b}_i  \leq 0\\
+    \bo{b}_i^\top \bo{b}_i  \leq d_i^2\\
     \bo{F}\bo{x} = \bo{g}.
     \end{cases}
 \end{aligned}
@@ -265,7 +343,7 @@ Which is the same as:
 & & \begin{cases}
     \bo{x}^\top \bo{A}_i^\top \bo{A}_i \bo{x} + 
     2 \bo{b}_i^\top \bo{A}_i\bo{x} + 
-    \bo{b}_i^\top \bo{b}_i  \leq 0\\
+    \bo{b}_i^\top \bo{b}_i  \leq d_i^2\\
     \bo{F}\bo{x} = \bo{g}.
     \end{cases}
 \end{aligned}
@@ -280,7 +358,7 @@ As long as $\bo{A}_0 = \sqrt{\bo{H}}$, and $\bo{b}_0 = 0.5 \bo{A}_0^{-1} \mathbf
 
 
 \begin{frame}{Friction cone}
-\framesubtitle{Friction and normal reaction force relation}
+\framesubtitle{Normal reaction force and friction}
 \begin{flushleft}
 
 \begin{figure}
