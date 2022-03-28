@@ -4,7 +4,7 @@
 
 
 \title{ Minimax }
-\subtitle{Computational Intelligence, Lecture 13}
+\subtitle{Computational Intelligence, Lecture 10}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -22,7 +22,7 @@
  \item MiniMax problems
  \item MiniMax: Linear constraint
  \item MiniMax: Quadratic constraint
- \item Control with parameter uncertainty
+% \item Control with parameter uncertainty
 \item Homework
 \end{itemize}
 
@@ -42,7 +42,7 @@ Find smallest $x \in \R$, such that $x + y \geq 1$, where $|y| \leq 2$.
 
 \bigskip
 
-In that example we need to find optimal value of $x$ subject to a constraint where another unknown variable is present; the constraint has to be satisfied for the \emph{worst-case scenario}, in this case it is $y = -2$. Solution is $x = 3$
+In that example we need to find optimal value of $x$ subject to a constraint where another unknown variable is present; the solution we find has to satisfy the constraint for any allowed value of $y$. The solution here is $x = 3$
 
 \bigskip
 
@@ -63,7 +63,7 @@ Consider the following problem:
 %
 \begin{equation}
 \begin{aligned}
-& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{any}}
 & & ||\bo{x}||, \\
 & \text{subject to}
 & & \bo{c}^\top \bo{x} + \bo{d}^\top \bo{y} \leq h, \\
@@ -115,7 +115,7 @@ Consider the following problem, where $\bo{x}^*$ is the desired value of $\bo{x}
 %
 \begin{equation}
 \begin{aligned}
-& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{any}}
 & & ||\bo{x} - \bo{x}^*||, \\
 & \text{subject to}
 & & \bo{y}^\top \bo{D} \bo{x} \leq h, \\
@@ -167,7 +167,7 @@ A more general case of the previous problem is:
 %
 \begin{equation}
 \begin{aligned}
-& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{any}}
 & & ||\bo{x} - \bo{x}^*||, \\
 & \text{subject to}
 & & (\bo{y} - \bo{a})^\top \bo{D} (\bo{x} - \bo{b}) \leq h, \\
@@ -254,7 +254,7 @@ A more general case of the previous problem is:
 %
 \begin{equation}
 \begin{aligned}
-& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{any}}
 & & ||\bo{x} - \bo{x}^*||, \\
 & \text{subject to}
 & & (\bo{y} - \bo{a})^\top \bo{D} (\bo{x} - \bo{b}) \leq h, \\
@@ -305,7 +305,7 @@ And now we formulated type 3 problem as type 2:
 %
 \begin{equation}
 \begin{aligned}
-& \underset{\bo{x}}{\text{min}} \ \underset{\bo{v}}{\text{max}}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{v}}{\text{any}}
 & & ||\bo{x} - \bo{x}^*||, \\
 & \text{subject to}
 & & (\bo{v} - \bo{g})^\top \bo{M} (\bo{x} - \bo{b}) \leq h, \\
@@ -327,7 +327,7 @@ Try solving this problem on your own:
 %
 \begin{equation}
 \begin{aligned}
-& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{max}}
+& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{any}}
 & & ||\bo{x} - \bo{x}^*||, \\
 & \text{subject to}
 & & (\bo{y} - \bo{a})^\top \bo{D} (\bo{x} - \bo{b})  + 
@@ -341,219 +341,219 @@ Try solving this problem on your own:
 
 
 
-
-\begin{frame}{Control with parameter uncertainty}
-\framesubtitle{Part 1}
-\begin{flushleft}
-
-Consider the system:
 %
-\begin{equation}
-    \dot{\bo{x}} = \bo{A}_p\bo{x} + \bo{B}_p\bo{u}
-\end{equation}
+%\begin{frame}{Control with parameter uncertainty}
+%\framesubtitle{Part 1}
+%\begin{flushleft}
 %
-where $\bo{A}_p$ and $\bo{B}_p$ are linear functions of parameters $\bo{p}$. We want to stabilize the origin.
-
-\bigskip
-
-Assume we use control law:
+%Consider the system:
+%%
+%\begin{equation}
+%    \dot{\bo{x}} = \bo{A}_p\bo{x} + \bo{B}_p\bo{u}
+%\end{equation}
+%%
+%where $\bo{A}_p$ and $\bo{B}_p$ are linear functions of parameters $\bo{p}$. We want to stabilize the origin.
 %
-\begin{equation}
-    \bo{u} = -\bo{K}\bo{x} + \bo{u}^*
-\end{equation}
-
-With that we get:
+%\bigskip
 %
-\begin{equation}
-   \dot{\bo{x}} = (\bo{A}_p - \bo{B}_p\bo{K})\bo{x} + \bo{B}_p\bo{u}^*
-\end{equation}
-
-
-% \begin{equation}
-%     \bo{u}^* = -\bo{B}^+(\bo{A}\bo{x}^* + \bo{c})
-% \end{equation}
- 
-\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{Control with parameter uncertainty}
-\framesubtitle{Part 2}
-\begin{flushleft}
-
-Let us write Lyapunov function for the system:
+%Assume we use control law:
+%%
+%\begin{equation}
+%    \bo{u} = -\bo{K}\bo{x} + \bo{u}^*
+%\end{equation}
 %
-\begin{align}
-    & V = \bo{x}^\top \bo{S} \bo{x} \\
-    & \dot{V} = \dot{\bo{x}}^\top \bo{S} \bo{x} + \bo{x}^\top \bo{S} \dot{\bo{x}} 
-    = \\
-    & = \bo{x}^\top \bo{S}(\bo{A}_p - \bo{B}_p\bo{K})\bo{x}
-    + \bo{x}^\top (\bo{A}_p - \bo{B}_p\bo{K})^\top
-    \bo{S} \bo{x}
-    + \\
-    & + \bo{x}^\top \bo{S} \bo{B}_p \bo{u}^*
-    +
-    \bo{u}^{*\top} \bo{B}_p^\top \bo{S} \bo{x}
-\end{align}
+%With that we get:
+%%
+%\begin{equation}
+%   \dot{\bo{x}} = (\bo{A}_p - \bo{B}_p\bo{K})\bo{x} + \bo{B}_p\bo{u}^*
+%\end{equation}
 %
-Let us define:
 %
-\begin{align}
-    & a = 2\bo{x}^\top \bo{S}(\bo{A}_p - \bo{B}_p\bo{K})\bo{x} \\
-    & \bo{b} = 2\bo{x}^\top \bo{S} \bo{B}_p
-\end{align}
+%% \begin{equation}
+%%     \bo{u}^* = -\bo{B}^+(\bo{A}\bo{x}^* + \bo{c})
+%% \end{equation}
+% 
+%\end{flushleft}
+%\end{frame}
 %
-With that we can find Jacobians:
 %
-\begin{align}
-    & \bo{a}_x = \frac{\partial a}{\partial \bo{p}} &
-    & \bo{B}_x = \frac{\partial \bo{b}}{\partial \bo{p}}
-\end{align}
-
-\end{flushleft}
-\end{frame}
-
-
-
-
-\begin{frame}{Control with parameter uncertainty}
-\framesubtitle{Part 3}
-\begin{flushleft}
-
-Thus we get minimax constraint on the Lyapunov function
 %
-\begin{align}
-\dot{V} = \bo{a}_x^\top \bo{p}_t + 
-\bo{u}^{*\top} \bo{B}_x \bo{p}_t
-\end{align}
+%\begin{frame}{Control with parameter uncertainty}
+%\framesubtitle{Part 2}
+%\begin{flushleft}
 %
-where $\bo{p}_t$ are true values of parameters $\bo{p}$. Assuming:
+%Let us write Lyapunov function for the system:
+%%
+%\begin{align}
+%    & V = \bo{x}^\top \bo{S} \bo{x} \\
+%    & \dot{V} = \dot{\bo{x}}^\top \bo{S} \bo{x} + \bo{x}^\top \bo{S} \dot{\bo{x}} 
+%    = \\
+%    & = \bo{x}^\top \bo{S}(\bo{A}_p - \bo{B}_p\bo{K})\bo{x}
+%    + \bo{x}^\top (\bo{A}_p - \bo{B}_p\bo{K})^\top
+%    \bo{S} \bo{x}
+%    + \\
+%    & + \bo{x}^\top \bo{S} \bo{B}_p \bo{u}^*
+%    +
+%    \bo{u}^{*\top} \bo{B}_p^\top \bo{S} \bo{x}
+%\end{align}
+%%
+%Let us define:
+%%
+%\begin{align}
+%    & a = 2\bo{x}^\top \bo{S}(\bo{A}_p - \bo{B}_p\bo{K})\bo{x} \\
+%    & \bo{b} = 2\bo{x}^\top \bo{S} \bo{B}_p
+%\end{align}
+%%
+%With that we can find Jacobians:
+%%
+%\begin{align}
+%    & \bo{a}_x = \frac{\partial a}{\partial \bo{p}} &
+%    & \bo{B}_x = \frac{\partial \bo{b}}{\partial \bo{p}}
+%\end{align}
 %
-\begin{align}
-& \bo{p}_t = \bo{p} + \bo{p}_0
-\end{align}
+%\end{flushleft}
+%\end{frame}
 %
-we get:
-
-\begin{align}
-& \dot{V} = \bo{a}_x^\top (\bo{p} + \bo{p}_0) + 
-\bo{u}^{*\top} \bo{B}_x (\bo{p} + \bo{p}_0)
-\end{align}
 %
-which is a minimax constraint. Let's solve it for the case $||\bo{p}|| \leq 1$.
-%and $||\bo{G}\bo{p}|| \leq 1$
-
-\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{Control with parameter uncertainty}
-\framesubtitle{Part 4}
-\begin{flushleft}
-Taking derivative of $\dot{V}$ with respect to $\bo{p}$ we get 
 %
-\begin{align}
-& \frac{\partial \dot{V}}{\partial  \bo{p}}  = \bo{a}_x^\top  + 
-\bo{u}^{*\top} \bo{B}_x
-\end{align}
 %
-this is the direction where the function grow the most. But we know its length is 1, so we conclude that:
-
-\begin{align}
-& \bo{p}  = \frac{\bo{a}_x^\top  + 
-\bo{u}^{*\top} \bo{B}_x}{|| \bo{a}_x^\top  + 
-\bo{u}^{*\top} \bo{B}_x ||}
-\end{align}
-
-So:
+%\begin{frame}{Control with parameter uncertainty}
+%\framesubtitle{Part 3}
+%\begin{flushleft}
 %
-\begin{align}
-& \dot{V} = 
-|| \bo{a}_x^\top  + 
-\bo{u}^{*\top} \bo{B}_x ||
-+
-(\bo{a}_x^\top + 
-\bo{u}^{*\top} \bo{B}_x) \bo{p}_0
-\end{align}
-
-\end{flushleft}
-\end{frame}
-
-
-
-
-\begin{frame}{Elliptical parameter uncertainty}
-\framesubtitle{Part 1}
-\begin{flushleft}
-
-Let's do the same, but for the case when $||\bo{G}\bo{p}|| \leq 1$:
-
-\begin{equation}
-    \begin{cases}
-\dot{V} = \bo{a}_x^\top (\bo{p} + \bo{p}_0) + 
-\bo{u}^{*\top} \bo{B}_x (\bo{p} + \bo{p}_0) \leq 0 \\
-||\bo{G}\bo{p}|| \leq 1
-    \end{cases}
-\end{equation}
-
-First step is to introduce new variable:
-
-\begin{align}
-& \rho = \bo{G}\bo{p}
-\end{align}
+%Thus we get minimax constraint on the Lyapunov function
+%%
+%\begin{align}
+%\dot{V} = \bo{a}_x^\top \bo{p}_t + 
+%\bo{u}^{*\top} \bo{B}_x \bo{p}_t
+%\end{align}
+%%
+%where $\bo{p}_t$ are true values of parameters $\bo{p}$. Assuming:
+%%
+%\begin{align}
+%& \bo{p}_t = \bo{p} + \bo{p}_0
+%\end{align}
+%%
+%we get:
 %
-from which it follows that $\bo{p} = \bo{G}^{-1} \rho$ ($\bo{G}$ should be invertible for the parameters to be bounded). Hence we get:
-
-\begin{equation}
-    \begin{cases}
-\dot{V} = \bo{a}_x^\top (\bo{G}^{-1} \rho + \bo{p}_0) + 
-\bo{u}^{*\top} \bo{B}_x (\bo{G}^{-1} \rho + \bo{p}_0) \leq 0 \\
-||\rho|| \leq 1
-    \end{cases}
-\end{equation}
-
-\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{Elliptical parameter uncertainty}
-\framesubtitle{Part 2}
-\begin{flushleft}
-
-We can find gradient:
-
-\begin{align}
-& \frac{\partial \dot{V}}{\partial  \bo{p}}  = 
-\bo{a}_x^\top \bo{G}^{-1}  + 
-\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1}
-\end{align}
-
-We know that length of $\rho$ is bounded, so:
-
-\begin{align}
-& \rho  = 
-\frac{\bo{a}_x^\top \bo{G}^{-1}  + 
-\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1}}{|| \bo{a}_x^\top \bo{G}^{-1}  + 
-\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1} ||}
-\end{align}
-
-And thus we get SOCP constraint:
-
-\begin{equation}
-\dot{V} = 
-|| \bo{a}_x^\top \bo{G}^{-1}  + 
-\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1} ||
-+ 
-\bo{a}_x^\top \bo{p}_0 + 
-\bo{u}^{*\top} \bo{B}_x \bo{p}_0 \leq 0 
-\end{equation}
-
-
-\end{flushleft}
-\end{frame}
+%\begin{align}
+%& \dot{V} = \bo{a}_x^\top (\bo{p} + \bo{p}_0) + 
+%\bo{u}^{*\top} \bo{B}_x (\bo{p} + \bo{p}_0)
+%\end{align}
+%%
+%which is a minimax constraint. Let's solve it for the case $||\bo{p}|| \leq 1$.
+%%and $||\bo{G}\bo{p}|| \leq 1$
+%
+%\end{flushleft}
+%\end{frame}
+%
+%
+%
+%\begin{frame}{Control with parameter uncertainty}
+%\framesubtitle{Part 4}
+%\begin{flushleft}
+%Taking derivative of $\dot{V}$ with respect to $\bo{p}$ we get 
+%%
+%\begin{align}
+%& \frac{\partial \dot{V}}{\partial  \bo{p}}  = \bo{a}_x^\top  + 
+%\bo{u}^{*\top} \bo{B}_x
+%\end{align}
+%%
+%this is the direction where the function grow the most. But we know its length is 1, so we conclude that:
+%
+%\begin{align}
+%& \bo{p}  = \frac{\bo{a}_x^\top  + 
+%\bo{u}^{*\top} \bo{B}_x}{|| \bo{a}_x^\top  + 
+%\bo{u}^{*\top} \bo{B}_x ||}
+%\end{align}
+%
+%So:
+%%
+%\begin{align}
+%& \dot{V} = 
+%|| \bo{a}_x^\top  + 
+%\bo{u}^{*\top} \bo{B}_x ||
+%+
+%(\bo{a}_x^\top + 
+%\bo{u}^{*\top} \bo{B}_x) \bo{p}_0
+%\end{align}
+%
+%\end{flushleft}
+%\end{frame}
+%
+%
+%
+%
+%\begin{frame}{Elliptical parameter uncertainty}
+%\framesubtitle{Part 1}
+%\begin{flushleft}
+%
+%Let's do the same, but for the case when $||\bo{G}\bo{p}|| \leq 1$:
+%
+%\begin{equation}
+%    \begin{cases}
+%\dot{V} = \bo{a}_x^\top (\bo{p} + \bo{p}_0) + 
+%\bo{u}^{*\top} \bo{B}_x (\bo{p} + \bo{p}_0) \leq 0 \\
+%||\bo{G}\bo{p}|| \leq 1
+%    \end{cases}
+%\end{equation}
+%
+%First step is to introduce new variable:
+%
+%\begin{align}
+%& \rho = \bo{G}\bo{p}
+%\end{align}
+%%
+%from which it follows that $\bo{p} = \bo{G}^{-1} \rho$ ($\bo{G}$ should be invertible for the parameters to be bounded). Hence we get:
+%
+%\begin{equation}
+%    \begin{cases}
+%\dot{V} = \bo{a}_x^\top (\bo{G}^{-1} \rho + \bo{p}_0) + 
+%\bo{u}^{*\top} \bo{B}_x (\bo{G}^{-1} \rho + \bo{p}_0) \leq 0 \\
+%||\rho|| \leq 1
+%    \end{cases}
+%\end{equation}
+%
+%\end{flushleft}
+%\end{frame}
+%
+%
+%
+%\begin{frame}{Elliptical parameter uncertainty}
+%\framesubtitle{Part 2}
+%\begin{flushleft}
+%
+%We can find gradient:
+%
+%\begin{align}
+%& \frac{\partial \dot{V}}{\partial  \bo{p}}  = 
+%\bo{a}_x^\top \bo{G}^{-1}  + 
+%\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1}
+%\end{align}
+%
+%We know that length of $\rho$ is bounded, so:
+%
+%\begin{align}
+%& \rho  = 
+%\frac{\bo{a}_x^\top \bo{G}^{-1}  + 
+%\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1}}{|| \bo{a}_x^\top \bo{G}^{-1}  + 
+%\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1} ||}
+%\end{align}
+%
+%And thus we get SOCP constraint:
+%
+%\begin{equation}
+%\dot{V} = 
+%|| \bo{a}_x^\top \bo{G}^{-1}  + 
+%\bo{u}^{*\top} \bo{B}_x \bo{G}^{-1} ||
+%+ 
+%\bo{a}_x^\top \bo{p}_0 + 
+%\bo{u}^{*\top} \bo{B}_x \bo{p}_0 \leq 0 
+%\end{equation}
+%
+%
+%\end{flushleft}
+%\end{frame}
 
 
 % \begin{frame}{Control with parameter uncertainty}
@@ -665,6 +665,95 @@ And thus we get SOCP constraint:
 	
 	
 	\centerline{Check Moodle for additional links, videos, textbook suggestions.}
+\end{frame}
+
+
+\begin{frame}{Max over norm of a sum of vectors}
+%	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		Consider the problem $\underset{\bo{x}}{\text{max}}(|| \bo{a} + \bo{x}||)$ and $|| \bo{x} || \leq p$. Let us open the norm:
+		
+		\begin{equation}
+			|| \bo{a} + \bo{x} || = 
+			\sqrt{(\bo{a} + \bo{x})^\top (\bo{a} + \bo{x})} = 
+			\bo{a}^\top\bo{a} + 2\bo{a}^\top\bo{x} + \bo{x}^\top\bo{x}
+		\end{equation}
+	
+	If $\bo{a}$ is a constant, then the expression $\bo{a}^\top\bo{a} + 2\bo{a}^\top\bo{x} + \bo{x}^\top\bo{x}$ attains a maximum when $\bo{x}^\top\bo{x} = p^2$ and $\bo{a}^\top\bo{x} = ||\bo{a}||p$. This implies that:
+	
+	\begin{equation}
+		\bo{x} = p\frac{\bo{a}}{|| \bo{a} ||}
+	\end{equation}
+	
+	And thus: $\underset{\bo{x}}{\text{max}}(|| \bo{a} + \bo{x}||) = 
+	|| \bo{a} + p\frac{\bo{a}}{|| \bo{a} ||}|| = 
+	|| \bo{a} || \left( 1 + \frac{p}{|| \bo{a} ||} \right) = 
+	|| \bo{a} || + p $	
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{MiniMax: Conic constraint}
+	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		Consider the following problem:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{min}} \ \underset{\bo{y}}{\text{any}}
+				& & ||\bo{x} - \bo{x}^*||, \\
+				& \text{subject to}
+				& & || \bo{A}\bo{x} + \bo{b} + \bo{y} || \leq \bo{c}^\top \bo{x} + d, \\
+				& & & ||\bo{y}|| \leq p
+			\end{aligned}
+		\end{equation}
+		%
+		As we discussed in the last slide, expression $|| \bo{A}\bo{x} + \bo{b} + \bo{y} ||$ is biggest when $\bo{y} = p \frac{\bo{A}\bo{x} + \bo{b}}{|| \bo{A}\bo{x} + \bo{b} ||}$, and the conic constraint becomes:
+		
+		\begin{equation}
+			|| \bo{A}\bo{x} + \bo{b} + p \frac{\bo{A}\bo{x} + \bo{b}}{|| \bo{A}\bo{x} + \bo{b} ||} || \leq \bo{c}^\top \bo{x} + d
+		\end{equation}
+		\begin{equation}
+		|| \bo{A}\bo{x} + \bo{b}|| \left( 1 + \frac{p}{|| \bo{A}\bo{x} + \bo{b}||} \right) \leq \bo{c}^\top \bo{x} + d
+		\end{equation}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{MiniMax: Conic constraint}
+	\framesubtitle{Part 2}
+	\begin{flushleft}
+		
+		Continue the derivation:
+		
+		\begin{equation}
+			|| \bo{A}\bo{x} + \bo{b}|| \left( 1 + \frac{p}{|| \bo{A}\bo{x} + \bo{b}||} \right) \leq \bo{c}^\top \bo{x} + d
+		\end{equation}
+		\begin{equation}
+			|| \bo{A}\bo{x} + \bo{b}|| + p \leq \bo{c}^\top \bo{x} + d
+		\end{equation}
+		
+		Finally the problem becomes:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{min}}
+				& & ||\bo{x} - \bo{x}^*||, \\
+				& \text{subject to}
+				& & || \bo{A}\bo{x} + \bo{b}|| \leq \bo{c}^\top \bo{x} + d - p
+			\end{aligned}
+		\end{equation}
+		
+		
+		
+	\end{flushleft}
 \end{frame}
 
 
