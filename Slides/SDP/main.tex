@@ -4,7 +4,7 @@
 
 
 \title{Semidefinite Programming, }
-\subtitle{Computational Intelligence, Lecture 10}
+\subtitle{Computational Intelligence, Lecture 11}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -131,17 +131,16 @@ where cost and constraints should adhere to SDP limitations.
 \framesubtitle{Mathematical formulation}
 \begin{flushleft}
 
-In control theory, Lyapunov equation is a condition of whether or not a continuous LTI system $\dot{\mathbf{x}} = \mathbf{A}\mathbf{x}$ is stabilizable:
+In control theory, Lyapunov equation is a condition of whether or not a continuous LTI system $\dot{\mathbf{x}} = \mathbf{A}\mathbf{x}$ is stable:
 
 \begin{equation}
     \begin{cases}
-        \mathbf{A}^\top\mathbf{P} + \mathbf{P}\mathbf{A} + \mathbf{Q} = 0 \\
-        \mathbf{P} \succeq 0 \\
-        \mathbf{Q} \succeq 0 
+        \mathbf{A}^\top\mathbf{P} + \mathbf{P}\mathbf{A}  \preceq -\mathbf{Q} \\
+        \mathbf{P} \succeq 0
     \end{cases}
 \end{equation}
 %
-where decision variable is $\mathbf{P}$. This can be represented as an SDP:
+where $\mathbf{Q} \succeq 0$ is a constant and decision variable is $\mathbf{P}$. This can be represented as an SDP:
 %
 \begin{equation}
 \begin{aligned}
@@ -150,7 +149,7 @@ where decision variable is $\mathbf{P}$. This can be represented as an SDP:
 & \text{subject to}
 & & \begin{cases}
     \mathbf{P} \succeq 0, \\
-    \mathbf{A}^\top\mathbf{P} + \mathbf{P}\mathbf{A} + \mathbf{Q} = 0.
+    \mathbf{A}^\top\mathbf{P} + \mathbf{P}\mathbf{A} + \mathbf{Q} \preceq 0.
     \end{cases}
 \end{aligned}
 \end{equation}
@@ -182,13 +181,12 @@ In control theory, Discrete Lyapunov equation is a condition of whether or not a
 
 \begin{equation}
     \begin{cases}
-        \mathbf{A}^\top \mathbf{P}\mathbf{A} - \mathbf{P} + \mathbf{Q} = 0 \\
-        \mathbf{P} \succeq 0 \\
-        \mathbf{Q} \succeq 0 
+        \mathbf{A}^\top \mathbf{P}\mathbf{A} - \mathbf{P} + \mathbf{Q} \preceq 0 \\
+        \mathbf{P} \succeq 0
     \end{cases}
 \end{equation}
 %
-where decision variable is $\mathbf{P}$. This can be represented as an SDP:
+where $\mathbf{Q} \succeq 0$ is a constant and decision variable is $\mathbf{P}$. This can be represented as an SDP:
 %
 \begin{equation}
 \begin{aligned}
@@ -197,7 +195,7 @@ where decision variable is $\mathbf{P}$. This can be represented as an SDP:
 & \text{subject to}
 & & \begin{cases}
     \mathbf{P} \succeq 0, \\
-    \mathbf{A}^\top \mathbf{P}\mathbf{A} - \mathbf{P} + \mathbf{Q} = 0.
+    \mathbf{A}^\top \mathbf{P}\mathbf{A} - \mathbf{P} + \mathbf{Q} \preceq 0.
     \end{cases}
 \end{aligned}
 \end{equation}
@@ -221,7 +219,7 @@ where decision variable is $\mathbf{P}$. This can be represented as an SDP:
 
 
 
-\begin{frame}{Ex. 3: FTS for continuous LTI}
+\begin{frame}{Ex. 3: Control design for CT-LTI}
 \framesubtitle{Mathematical formulation}
 \begin{flushleft}
 
@@ -229,13 +227,12 @@ For an LTI system of the form $\dot{\mathbf{x}} = \mathbf{A}\mathbf{x} + \mathbf
 
 \begin{equation}
     \begin{cases}
-        \mathbf{A}\mathbf{P} + \mathbf{P}\mathbf{A}^\top + \mathbf{B}\mathbf{L} + \mathbf{L}\mathbf{B}^\top + \mathbf{Q} = 0 \\
-        \mathbf{P} \succeq 0 \\
-        \mathbf{Q} \succeq 0 
+        \mathbf{A}\mathbf{P} + \mathbf{P}     \mathbf{A}^\top + \mathbf{B}\mathbf{L} + \mathbf{L}^\top\mathbf{B}^\top + \mathbf{Q} \preceq 0 \\
+        \mathbf{P} \succeq 0
     \end{cases}
 \end{equation}
 %
-where decision variables are $\mathbf{P}$ and $\mathbf{L}$. 
+where $\mathbf{Q} \succeq 0$ is a constant and decision variables are $\mathbf{P}$ and $\mathbf{L}$. 
 
 \bigskip
 
@@ -251,7 +248,7 @@ This gives as a direct way to calculate linear feedback controller $\mathbf{u} =
 
 
 
-\begin{frame}{Ex. 3: FTS for continuous LTI, Code}
+\begin{frame}{Ex. 3: Control design for CT-LTI, Code}
 % \framesubtitle{Code}
 \begin{flushleft}
 
@@ -350,18 +347,90 @@ This concept can be made concrete by talking about the determinant of $\mathbf{B
 \end{frame}
 
 
+\begin{frame}{Min volume bounding ellipsoid}
+	\begin{flushleft}
+		
+		Consider the problem: given V-polytope, defined by its vertices $\bo{v}_i$, find minimum-volume ellipsoid $\mathcal{E}$ containing the polytope. We will start with defining the ellipsoid as $\mathcal{E} = \{ \mathbf{z}: \ || \mathbf{B}\mathbf{z} + \mathbf{c} || \leq 1 \}$. The ellipsoid is smaller when $|| \mathbf{B} ||$ is bigger, and thus we can write the minimization as minimizing $\text{det} (\mathbf{B}^{-1}) $.
+		
+\begin{equation}
+	\begin{aligned}
+		& \underset{\mathbf{B}, \bo{c}}{\text{minimize}}
+		& & \text{log} (\text{det} (\mathbf{B}^{-1}) ), \\
+		& \text{subject to}
+		& & \begin{cases}
+			\mathbf{B} \succeq 0, \\
+			|| \mathbf{B} \bo{v}_i + \mathbf{c} || \leq 0.
+		\end{cases}
+	\end{aligned}
+\end{equation}
 
-\begin{frame}{Inscribed ellipsoid algorithms}
-\begin{flushleft}
-
-Continue with slides from Convex Optimization — Boyd \& Vandenberghe. Follow the link:
-
-\bigskip
-
-\centerline{\href{https://see.stanford.edu/materials/lsocoee364a/08GeometricalProbs.pdf}{8. Geometric problems}}
-
-\end{flushleft}
+The solution gives us L\"owner-John ellipsoid.
+		
+	\end{flushleft}
 \end{frame}
+
+
+
+\begin{frame}{Max volume inscribed ellipsoid, 1}
+	\begin{flushleft}
+		
+		Consider the problem: given H-polytope, defined by its half-spaces $\bo{a}_i^\top \bo{x} \leq b_i$, find maximum-volume ellipsoid $\mathcal{E}$ contained in the polytope. We will start with defining the ellipsoid as $\mathcal{E} = \{ \bo{C}\bo{x} + \bo{d}: \ || \bo{x} || \leq 1 \}$. The ellipsoid is larger when $|| \mathbf{C} ||$ is bigger, and thus we can write the minimization as minimizing $\text{det} (\mathbf{C}^{-1}) $.
+		
+		\bigskip
+		
+		Let us write down the constraint requiring that $\mathcal{E}$ lies in the polytope. We know that $\bo{a}_i^\top (\bo{C}\bo{x} + \bo{d}) \leq b_i$ holds for all $|| \bo{x} || \leq 1$. The worst-case scenario is when $\bo{x}$ aligned with $\bo{a}_i^\top \bo{C}$ and has length 1:
+		%
+		\begin{equation}
+			\bo{x} = \frac{\bo{a}_i^\top \bo{C}}{|| \bo{a}_i^\top \bo{C} ||}
+		\end{equation}
+	%
+		Thus the constraint becomes
+		%
+		\begin{equation}
+			 || \bo{a}_i^\top \bo{C} || + \bo{a}_i^\top\bo{d} \leq b_i
+		\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Max volume inscribed ellipsoid, 2}
+	\begin{flushleft}
+		
+		Here is the resulting problem:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\mathbf{C}, \bo{d}}{\text{minimize}}
+				& & \text{log} (\text{det} (\mathbf{C}^{-1}) ), \\
+				& \text{subject to}
+				& & \begin{cases}
+					\mathbf{C} \succeq 0, \\
+					|| \bo{a}_i^\top \bo{C} || + \bo{a}_i^\top\bo{d} \leq b_i.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		The solution gives us inscribed (inner) L\"owner-John ellipsoid.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+%\begin{frame}{Inscribed ellipsoid algorithms}
+%\begin{flushleft}
+%
+%Continue with slides from Convex Optimization — Boyd \& Vandenberghe. Follow the link:
+%
+%\bigskip
+%
+%\centerline{\href{https://see.stanford.edu/materials/lsocoee364a/08GeometricalProbs.pdf}{8. Geometric problems}}
+%
+%\end{flushleft}
+%\end{frame}
 
 
 
@@ -394,6 +463,123 @@ Implement both examples from page 2 of the \href{http://stanford.edu/class/ee363
 	
 	\centerline{Check Moodle for additional links, videos, textbook suggestions.}
 \end{frame}
+
+
+
+
+\begin{frame}{Appendix A}
+%	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		Schur compliment. Given $\bo{M}$
+		
+		\begin{equation}
+			\bo{M} = 
+			\begin{bmatrix}
+				\bo{A} & \bo{B} \\
+				\bo{B}^\top & \bo{C}
+			\end{bmatrix}
+		\end{equation}
+	
+	with full-rank $\bo{A}$, we can make the following statements:
+	
+	\begin{itemize}
+		\item $\bo{M} \succ 0$ iff $\bo{A} \succ 0$ and $\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} \succ 0$
+		\item $\bo{A} \succ 0 \implies$ $\bo{M} \succeq 0$ iff $\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} \succeq 0$
+	\end{itemize}
+
+\bigskip
+
+	If $\bo{C}$ is full-rank, we can make the following statements:
+	
+	\begin{itemize}
+	\item $\bo{M} \succ 0$ iff $\bo{C} \succ 0$ and $\bo{A} - \bo{B}\bo{C}^{-1}\bo{B}^\top \succ 0$
+	\item $\bo{C} \succ 0 \implies$ $\bo{M} \succeq 0$ iff $\bo{A} - \bo{B}\bo{C}^{-1}\bo{B}^\top \succeq 0$
+\end{itemize}		
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Appendix B}
+	\framesubtitle{Part 1}
+	\begin{flushleft}
+		
+		Let us prove that SOCP is a sub-set of SDP. SOC constraint is:
+		
+		\begin{equation}
+			||\bo{A}\bo{x} + \bo{b}|| \leq \bo{c}^\top \bo{x} + d
+		\end{equation}
+	%
+	where $\bo{c}^\top \bo{x} + d \geq 0$, and we can rewrite the SOC as: $(\bo{A}\bo{x} + \bo{b})^\top (\bo{A}\bo{x} + \bo{b}) = (\bo{c}^\top \bo{x} + d)^2$, and assuming $\bo{c}^\top \bo{x} + d > 0$ we can write it as:
+	
+	\begin{equation}
+		\frac{(\bo{A}\bo{x} + \bo{b})^\top (\bo{A}\bo{x} + \bo{b})}{\bo{c}^\top \bo{x} + d} \leq \bo{c}^\top \bo{x} + d
+	\end{equation}
+	
+	which is equivalent to:
+	
+	\begin{equation}
+		-\frac{(\bo{A}\bo{x} + \bo{b})^\top (\bo{A}\bo{x} + \bo{b})}{-(\bo{c}^\top \bo{x} + d)} \leq \bo{c}^\top \bo{x} + d
+	\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Appendix B}
+	\framesubtitle{Part 2}
+	\begin{flushleft}
+		
+		Note that $-\frac{(\bo{A}\bo{x} + \bo{b})^\top (\bo{A}\bo{x} + \bo{b})}{-(\bo{c}^\top \bo{x} + d)} \leq \bo{c}^\top \bo{x} + d$ is equivalent to:
+		
+		\begin{equation}
+			\frac{(\bo{A}\bo{x} + \bo{b})^\top (\bo{A}\bo{x} + \bo{b})}{-(\bo{c}^\top \bo{x} + d)} + (\bo{c}^\top \bo{x} + d) \geq 0
+		\end{equation}
+		
+		Using Schur we can re-write it as:
+		
+		\begin{equation}
+			\begin{bmatrix}
+				(\bo{c}^\top \bo{x} + d) & (\bo{A}\bo{x} + \bo{b}) \\
+				(\bo{A}\bo{x} + \bo{b})^\top & (\bo{c}^\top \bo{x} + d)
+			\end{bmatrix} \succeq 0
+		\end{equation}
+		
+		which is an SDP constraint.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Appendix C}
+	\begin{flushleft}
+		
+		Consider the problem: minimize the largest eigenvalue of $A$. The solution is:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{A}, t}{\text{minimize}}
+				& & t, \\
+				& \text{subject to}
+				& & \bo{A} \preceq t\bo{I}
+			\end{aligned}
+		\end{equation}
+		
+		Proof. If $\lambda$ is an eigenvalue of $\bo{A}$, then $\bo{A} \bo{v} = \lambda\bo{v}$, hence $(\bo{A} - t\bo{I}) \bo{v} = (\lambda - t)\bo{v}$, meaning $\lambda - t$ is eigenvalue of $(\bo{A} - t\bo{I})$. Thus, if $(\bo{A} - t\bo{I})$ is negative semi-definite, then $\lambda - t \leq 0$ and $\lambda \leq t$. \qed
+		
+		
+	\end{flushleft}
+\end{frame}
+
 
 
 

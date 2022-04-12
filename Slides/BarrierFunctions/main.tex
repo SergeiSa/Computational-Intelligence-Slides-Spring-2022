@@ -157,11 +157,206 @@ Pink is the domain. The ellipsoids represent the shape of the hessian $\frac{\pa
 
 
 
+
+\begin{frame}{Lagrangian}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Consider an optimization problem:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & f_0(\bo{x}), \\
+				& \text{subject to}
+				& & \begin{cases}
+					f_i(\bo{x}) \leq 0, \\
+					h_j(\bo{x}) = 0.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		It's \emph{Lagrangian} is given as:
+		
+		\begin{equation}
+			L(\bo{x}, \lambda_i, \nu_j) = 
+			f_0(\bo{x}) + 
+			\sum\limits_i \lambda_i f_i(\bo{x}) +
+			\sum\limits_j \nu_j h_j(\bo{x})
+		\end{equation}
+	%
+	where $\lambda_i$ and $\nu_j$ are Lagrange multipliers; they are sometimes called \emph{dual variables}.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Lagrange dual function}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+	Given \emph{Lagrangian} $L(\bo{x}, \lambda_i, \nu_j) = 
+	f_0(\bo{x}) + 
+	\sum\limits_i \lambda_i f_i(\bo{x}) +
+	\sum\limits_j \nu_j h_j(\bo{x})$, the associated 
+	 \emph{Lagrange dual function} is given as:
+		
+		\begin{equation}
+			g(\lambda_i, \nu_j)  = \underset{\bo{x}}{\text{inf}}
+			\ L(\bo{x}, \lambda_i, \nu_j).
+		\end{equation}
+		
+		Lagrange dual function is always concave. If $p^*$ is the optimal value of the cost function of the original problem, then $g(\lambda_i, \nu_j)$ gives as a \emph{lower bound} on its possible values. In fact, substituting any $\nu_j$ and $\lambda_i > 0$ gives us a valid lower bound on the cost. Maximum of $g(\lambda_i, \nu_j)$ over the domain given by $\lambda_i > 0$ provides us optimal (largest) lower bound of the problem, denoted as $g^*$. 
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Duality gap, strong and weak duality}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		If $p^*$ is the optimal value of the cost function of the original problem and $g^*$ is the optimal lower bound of the problem, then $p^* - g^*$ is called optimal \emph{duality gap}.
+		
+		\bigskip
+		
+		If optimal duality gap is zero, the problem is said to have \emph{strong duality}. If optimal duality gap greater than zero, the problem is said to have \emph{weak duality}.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Lagrange dual function for a QP, 1}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Consider the following QP:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & \bo{x}^\top \bo{H} \bo{x}, \\
+				& \text{subject to}
+				& & \bo{A}\bo{x} \leq \bo{b}.
+			\end{aligned}
+		\end{equation}
+		%
+		Its Lagrangian is:
+		%
+		\begin{equation}
+			L(\bo{x}, \lambda) = \bo{x}^\top \bo{H} \bo{x} + \lambda^\top (\bo{A}\bo{x} - \bo{b})
+		\end{equation}
+		
+		In order to minimize the Lagrangian with respect to $\bo{x}$ we find the gradient and set it to zero:
+		%
+		\begin{equation}
+			\frac{L(\bo{x}, \lambda)}{\bo{x}} = 2\bo{x}^\top \bo{H} + \lambda^\top \bo{A} = 0
+		\end{equation}
+		
+		With that we can compute $\bo{x}$ as a function of $\lambda$:
+		%
+		\begin{equation}
+			\bo{x} = -0.5\bo{H}^{-1}\bo{A}^\top \lambda
+		\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Lagrange dual function for a QP, 2}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Knowing that $\bo{x} = -0.5\bo{H}^{-1}\bo{A}^\top \lambda$ we can compute $g(\lambda)$ by substituting the $\bo{x}$ we found into the Lagrangian:
+		%
+		\begin{equation}
+			g(\lambda) = \frac{1}{4} \lambda^\top \bo{A}\bo{H}^{-1}\bo{H}\bo{H}^{-1}\bo{A}^\top\lambda - \frac{1}{2} \lambda^\top \bo{A}\bo{H}^{-1}\bo{A}^\top \lambda - \lambda^\top\bo{b}
+		\end{equation}
+	%
+	\begin{equation}
+		g(\lambda) = -\frac{1}{4} \lambda^\top \bo{A}\bo{H}^{-1}\bo{A}^\top\lambda - \lambda^\top\bo{b}
+	\end{equation}
+		
+		In order to find the optimal lower bound we solve the following problem:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\lambda}{\text{maximize}}
+				& & -\frac{1}{4} \lambda^\top \bo{A}\bo{H}^{-1}\bo{A}^\top\lambda - \lambda^\top\bo{b}, \\
+				& \text{subject to}
+				& & \lambda \geq 0.
+			\end{aligned}
+		\end{equation}
+		
+		Note that optimal values of $\lambda$ determine local sensitivity of the system with respect to small perturbations of constraints.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Example, sensitivity}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+	
+		Consider minimizing $(\bo{x} - \bo{c})^\top (\bo{x} - \bo{c})$ when the domain is the second quadrant: $x_1 \geq 0$ and $x_2 \leq 0$. Find sensitivity of the problem as a function of $\bo{c}$.
+	%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & (\bo{x} - \bo{c})^\top (\bo{x} - \bo{c}), \\
+				& \text{subject to}
+				& & \bo{A}\bo{x} \leq 0.
+			\end{aligned}
+		\end{equation}
+	%
+	where $\bo{A} = \begin{bmatrix}
+		-1 & 0 \\ 0 & 1
+	\end{bmatrix}$.
+		
+		The dual Lagrange function is:
+		
+		\begin{equation}
+			g(\lambda) = -\frac{1}{4} \lambda^\top \bo{A}\bo{A}^\top\lambda + \lambda^\top \bo{A}\bo{c}
+		\end{equation}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example, Illustration of the sensitivity}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=\linewidth]{sensitivity.png}
+			\caption{Sensitivity}
+			\label{fig:Sensitivity}
+		\end{figure}
+		
+		Turquoise on the left is the domain. The arrows on the right show the values of $\lambda$.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
 \begin{frame}{Homework}
 % \framesubtitle{Parameter estimation}
 \begin{flushleft}
 
-Visualize contours of a quadratic program of your choice.
+Visualize contours of a quadratic program of your choice. Compute its optimal lower bound and duality gap.
 
 \end{flushleft}
 \end{frame}

@@ -53,37 +53,17 @@ A general form of a mixed-integer linear program is:
 %
 \begin{equation} \label{LP}
 \begin{aligned}
-& \underset{\mathbf{x}, \mathbf{y}}{\text{minimize}}
-& & \mathbf{f}_1^\top \mathbf{x} + \mathbf{f}_2^\top \mathbf{y}, \\
+& \underset{\mathbf{x}}{\text{minimize}}
+& & \mathbf{f}^\top \mathbf{x}, \\
 & \text{subject to}
 & & \begin{cases} 
-\begin{bmatrix}
-\mathbf{A}_{11} & \mathbf{A}_{12} \\
-\mathbf{A}_{21} & \mathbf{A}_{22}
-\end{bmatrix} 
-\begin{bmatrix}
-\mathbf{x} \\
-\mathbf{y}
-\end{bmatrix}
+\mathbf{A} \mathbf{x}
 \leq 
-\begin{bmatrix}
-\mathbf{b}_1 \\
-\mathbf{b}_2
-\end{bmatrix}, \\ 
-\\
-\begin{bmatrix}
-\mathbf{C}_{11} & \mathbf{C}_{12} \\
-\mathbf{C}_{21} & \mathbf{C}_{22}
-\end{bmatrix} 
-\begin{bmatrix}
-\mathbf{x} \\
-\mathbf{y}
-\end{bmatrix} = 
-\begin{bmatrix}
-\mathbf{d}_1 \\
-\mathbf{d}_2
-\end{bmatrix},  \\
-\mathbf{y} \in \mathbb{N}^n.
+\mathbf{b}, \\ 
+\mathbf{C}\mathbf{x} = 
+\mathbf{d},  \\
+\mathbf{x}_1, ..., \mathbf{x}_m \in \mathbb{R},\\
+\mathbf{x}_{m+1}, ..., \mathbf{x}_n \in \mathbb{N}.
 \end{cases}
 %
 \end{aligned}
@@ -105,55 +85,22 @@ A general form of a mixed-integer quadratic program is:
 %
 \begin{equation} \label{QP}
 \begin{aligned}
-& \underset{\mathbf{x}, \mathbf{y}}{\text{minimize}}
+& \underset{\mathbf{x}}{\text{minimize}}
 & & 
-\begin{bmatrix}
-\mathbf{x} & \mathbf{y}
-\end{bmatrix}
-\begin{bmatrix}
-\mathbf{H}_{11} & \mathbf{H}_{12} \\
-\mathbf{H}_{21} & \mathbf{H}_{22}
-\end{bmatrix} 
-\begin{bmatrix}
-\mathbf{x} \\
-\mathbf{y}
-\end{bmatrix} +
-\begin{bmatrix}
-\mathbf{f}_1 & \mathbf{f}_2
-\end{bmatrix}
-\begin{bmatrix}
-\mathbf{x} \\
-\mathbf{y}
-\end{bmatrix}, \\
+\mathbf{x}^\top
+\mathbf{H}
+\mathbf{x} +
+\mathbf{f}^\top
+\mathbf{x} , \\
 & \text{subject to}
 & & \begin{cases} 
-\begin{bmatrix}
-\mathbf{A}_{11} & \mathbf{A}_{12} \\
-\mathbf{A}_{21} & \mathbf{A}_{22}
-\end{bmatrix} 
-\begin{bmatrix}
-\mathbf{x} \\
-\mathbf{y}
-\end{bmatrix}
+\mathbf{A} \mathbf{x}
 \leq 
-\begin{bmatrix}
-\mathbf{b}_1 \\
-\mathbf{b}_2
-\end{bmatrix}, \\ 
-\\
-\begin{bmatrix}
-\mathbf{C}_{11} & \mathbf{C}_{12} \\
-\mathbf{C}_{21} & \mathbf{C}_{22}
-\end{bmatrix} 
-\begin{bmatrix}
-\mathbf{x} \\
-\mathbf{y}
-\end{bmatrix} = 
-\begin{bmatrix}
-\mathbf{d}_1 \\
-\mathbf{d}_2
-\end{bmatrix},  \\
-\mathbf{y} \in \mathbb{N}^n.
+\mathbf{b}, \\ 
+\mathbf{C}\mathbf{x} = 
+\mathbf{d},  \\
+\mathbf{x}_1, ..., \mathbf{x}_m \in \mathbb{R},\\
+\mathbf{x}_{m+1}, ..., \mathbf{x}_n \in \mathbb{N}.
 \end{cases}
 %
 \end{aligned}
@@ -409,6 +356,29 @@ where $w$ is a weight, a coefficient we can tune to adjust relative importance o
 \input{code3.tex}
  
 \end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example: switching control}
+	\framesubtitle{Multiple variables}
+	\begin{flushleft}
+		
+		Consider the case when you have a control system $\dot{\bo{x}} =\bo{A}\bo{x} + \bo{B}_1\bo{u}_1 + \bo{B}_2\bo{u}_2$, but you are required to use either $\bo{B}_1\bo{u}_1$ or $\bo{B}_2\bo{u}_2$ at any time, not both.
+		
+		\bigskip
+		
+		This can be cast as a mixed-integer constraint:
+		
+		\begin{equation}
+			\begin{cases}
+				||\bo{B}_1\bo{u}_1|| \leq M (1 - c_1) \\
+				||\bo{B}_2\bo{u}_2|| \leq M (1 - c_2) \\
+				c_1 + c_2 = 1
+			\end{cases}
+		\end{equation}
+		
+	\end{flushleft}
 \end{frame}
 
 

@@ -5,17 +5,17 @@ B = randn(n, m);
 Q = eye(n)*0.1;
 cvx_begin sdp
     variable P(n, n) symmetric
-    variable Z(m, n)
+    variable L(m, n)
     
     minimize 0
     subject to
     	P >= 0;
-        A*P + P*A' + B*Z + Z'*B' + Q <= 0;
+        A*P + P*A' + B*L + L'*B' + Q <= 0;
 cvx_end
 P = full(P);
-Z = full(Z);
-K_LMI = Z*pinv(P);
+L = full(L);
+K = L*pinv(P);
 
-disp('K_LMI eig:')
-eig(A + B*K_LMI)
+disp('CL eig:')
+eig(A + B*K)
 \end{lstlisting}
