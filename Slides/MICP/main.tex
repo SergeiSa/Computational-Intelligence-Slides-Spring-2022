@@ -4,7 +4,7 @@
 
 
 \title{Mixed Integer Convex Programming}
-\subtitle{Computational Intelligence, Lecture 11}
+\subtitle{Computational Intelligence, Lecture 12}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -19,24 +19,9 @@
 \begin{itemize}
 \item Mixed Integer Linear Programming (MILP)
 \item Mixed Integer Quadratic Programming (MIQP)
-\item Remarks
 \item Example: Footstep planning
 \item Big-M method relaxation
-\begin{itemize}
-    \item Basic idea
-    \item Systems of inequalities
-    \item Illustration, part 1
-    \item Illustration, part 2
-    \item Multiple variables
-\end{itemize}
-\item  Example: Footstep planning
-\begin{itemize}
-    \item Formulation as MIQP
-    \item Evenly spaced steps
-    \item Code, part 1
-    \item Code, part 2
-    \item Code, part 3
-\end{itemize}
+\item Example: switching control
 \item Homework
 \end{itemize}
 
@@ -281,7 +266,7 @@ Using big-M relaxation we can now formulate the problem as follows:
 
 \begin{equation}
 \begin{aligned}
-& \underset{\mathbf{x}_1, \ ..., \ \mathbf{x}_K}{\text{minimize}}
+& \underset{\mathbf{x}_k, \ \mathbf{c}_{i,k}}{\text{minimize}}
 & & ||\mathbf{x}_1 - \mathbf{x}_{\text{start}}|| + ||\mathbf{x}_K - \mathbf{x}_{\text{goal}}||, \\
 & \text{subject to}
 & & \begin{cases}
@@ -307,10 +292,10 @@ Using big-M relaxation we can now formulate the problem as follows:
 
 In order to make the footsteps evenly spaced we add cost on the distance between consequent steps:
 
-\begin{equation}
+\begin{equation*}
 \begin{aligned}
-& \underset{\mathbf{x}_1, \ ..., \ \mathbf{x}_K}{\text{minimize}}
-& & ||\mathbf{x}_1 - \mathbf{x}_{\text{start}}|| + ||\mathbf{x}_K - \mathbf{x}_{\text{goal}}|| + w \cdot \sum_{k=1}^{K-1} ||\mathbf{x}_{i+1} - \mathbf{x}_i||, \\
+& \underset{\mathbf{x}_k, \ \mathbf{c}_{i,k}}{\text{minimize}}
+& & ||\mathbf{x}_1 - \mathbf{x}_{\text{start}}||^2 + ||\mathbf{x}_K - \mathbf{x}_{\text{goal}}||^2 + w \cdot \sum_{k=1}^{K-1} ||\mathbf{x}_{i+1} - \mathbf{x}_i||^2, \\
 & \text{subject to}
 & & \begin{cases}
     \mathbf{A}_i \mathbf{x}_k \leq \mathbf{b}_i + M \cdot \mathbf{1} \cdot (1 - c_{i, k}), \ i = 1,...,N \\
@@ -319,7 +304,7 @@ In order to make the footsteps evenly spaced we add cost on the distance between
     k = 1,...,K
     \end{cases}
 \end{aligned}
-\end{equation}
+\end{equation*}
 
 where $w$ is a weight, a coefficient we can tune to adjust relative importance of our primary objective (starting from the point $\mathbf{x}_{\text{start}}$ and finishing at the point $\mathbf{x}_{\text{goal}}$ and our secondary objective (making the footsteps evenly spaced).  
  

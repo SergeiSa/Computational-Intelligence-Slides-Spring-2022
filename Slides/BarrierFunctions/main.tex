@@ -3,8 +3,8 @@
 \input{settings.tex}
 
 
-\title{Barrier functions}
-\subtitle{Computational Intelligence, Lecture 11}
+\title{Barrier functions, Duality, Sensitivity}
+\subtitle{Computational Intelligence, Lecture 13}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -18,10 +18,11 @@
 \begin{frame}{Content}
 
 \begin{itemize}
-\item Linear inequalities
 \item Barrier functions
-\item Barrier functions for QPs
 \item Analytic center of linear inequalities
+\item Lagrange dual function
+\item Duality gap, strong and weak duality
+\item Sensitivity
 \item Homework
 \end{itemize}
 
@@ -253,7 +254,7 @@ Pink is the domain. The ellipsoids represent the shape of the hessian $\frac{\pa
 		In order to minimize the Lagrangian with respect to $\bo{x}$ we find the gradient and set it to zero:
 		%
 		\begin{equation}
-			\frac{L(\bo{x}, \lambda)}{\bo{x}} = 2\bo{x}^\top \bo{H} + \lambda^\top \bo{A} = 0
+			\frac{\partial L(\bo{x}, \lambda)}{\partial \bo{x}} = 2\bo{x}^\top \bo{H} + \lambda^\top \bo{A} = 0
 		\end{equation}
 		
 		With that we can compute $\bo{x}$ as a function of $\lambda$:
