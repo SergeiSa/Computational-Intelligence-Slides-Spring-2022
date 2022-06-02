@@ -21,16 +21,15 @@
 * Class (SVD): https://youtu.be/8ELVCgOLXvc (2022)
 * Class 4 (Least squares and Qaudratic programming): https://youtu.be/HN2ubR1lCb4 (2022)
 * Class (Convex Domains): https://youtu.be/sU9H3KIdl_Q (2021)
-* 
-* Class 5: https://youtu.be/m1VBodm9fyA
-* Class 6 (practical session): https://youtu.be/JSt-6UBNyM4
-* Class 7: https://youtu.be/HaD7Swxh-mo
-* Class 8: (practical session) https://youtu.be/g_4F9BQrXnk
-* Class 9: https://youtu.be/4F_ycUf1lRk
-* Class 10: https://youtu.be/EPUGBSHsSLc
-* Class 11: https://youtu.be/7Dwa_7PfqJA
-* Class (MICP): https://youtu.be/GtSi2I-iRLI
-* Class (Minimax): https://youtu.be/KFOa_HzwreY
+* Class 5: https://youtu.be/m1VBodm9fyA (2021)
+* Class 6 (practical session): https://youtu.be/JSt-6UBNyM4 (2021)
+* Class 7: https://youtu.be/HaD7Swxh-mo (2021)
+* Class 8: (practical session) https://youtu.be/g_4F9BQrXnk (2021)
+* Class 9: https://youtu.be/4F_ycUf1lRk (2021)
+* Class 10: https://youtu.be/EPUGBSHsSLc (2021)
+* Class 11: https://youtu.be/7Dwa_7PfqJA (2021)
+* Class (MICP): https://youtu.be/GtSi2I-iRLI (2021)
+* Class (Minimax): https://youtu.be/KFOa_HzwreY (2021)
 
 
 # 2020's videos:
