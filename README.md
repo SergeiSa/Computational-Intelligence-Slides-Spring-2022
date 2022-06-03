@@ -1,17 +1,17 @@
 # Slides:
-* Lecture 1 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/Introduction
-* Lecture 2 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/NullRowProjector
-* Lecture 3 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/ColumnLeftNullApplications
-* Lecture 4 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/SVD
-* Lecture 5 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/LeastSquares_QuadraticProgramming
-* Lecture 6 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/ConvexDomains
-* Lecture 7 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/LMI_ConvexDomains
-* Lecture 8 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/Linear_Programming
-* Lecture 9 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/QCQP_SOCP
-* Lecture 10 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/SDP
-* Lecture 11 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/MICP
-* Lecture 12 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/BarrierFunctions
-* Lecture 13 - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/MiniMax
+* Lecture 1 (Introduction, motivation) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/Introduction
+* Lecture 2 (null and row spaces, projector) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/NullRowProjector
+* Lecture 3 (Col and left null spaces) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/ColumnLeftNullApplications
+* Lecture 4 (singular-value decomposition) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/SVD
+* Lecture 5 (Least squares, quadratic prog, role of inequalities) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/LeastSquares_QuadraticProgramming
+* Lecture 6 (Convex Domain, Convex functions) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/ConvexDomains
+* Lecture 7 (Linear convex domains) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/LMI_ConvexDomains
+* Lecture 8 (Linear prog.) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/Linear_Programming
+* Lecture 9 (Second-order cone prog.) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/QCQP_SOCP
+* Lecture 10 (Semidefinite programming) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/SDP
+* Lecture 11 (Mixed Integer) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/MICP
+* Lecture 12 (Barrier functions, Duality, Sensitivity) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/BarrierFunctions
+* Lecture 13 (Worst case scenario optimization) - https://github.com/SergeiSa/Computational-Intelligence-Slides-Spring-2022/tree/main/Slides/MiniMax
 
 
 # Lecture videos:
